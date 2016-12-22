@@ -26,7 +26,7 @@ export const response = {
         },
       ],
     },
-    enumberables: {
+    enumerables: {
       roles: {
         SUPER_ADMIN: 'Super admin',
         SUPER_USER: 'Super user'

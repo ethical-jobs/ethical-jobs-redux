@@ -1,5 +1,4 @@
 var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var path = require('path');
 
 var env = process.env.NODE_ENV;
@@ -14,7 +13,7 @@ var config = {
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel',
-        exclude: /node_modules/
+        exclude: [/node_modules/,/__tests__/]
       }
     ]
   },

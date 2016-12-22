@@ -6,7 +6,7 @@ import { REQUEST, SUCCESS, FAILURE } from 'utils';
 export const initialState = Immutable.fromJS({
   fetching: false,
   error: false,
-  enumberables: {},
+  enumerables: {},
 });
 
 /**
@@ -26,7 +26,7 @@ export default function reducer(state = initialState, action = {}) {
       return state
         .set('fetching', false)
         .set('error', false)
-        .set('enumberables', action.payload.data.taxonomies);
+        .set('enumerables', action.payload.data.enumerables);
 
     case FAILURE(AppActions.FETCH_APP_DATA):
       return state

@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import * as AppActions from 'app/actions';
-import enumberablesReducer, { initialState } from 'enumberables';
+import enumerablesReducer, { initialState } from 'enumerables';
+import { REQUEST, SUCCESS, FAILURE } from 'utils';
 import { response, error } from 'app/__tests__/_fixtures';
 
 /*
@@ -13,9 +14,9 @@ test('should return correct initial state', () => {
   const expected = Immutable.fromJS({
     fetching: false,
     error: false,
-    enumberables: {},
+    enumerables: {},
   });
-  expect(Immutable.is(enumberablesReducer(undefined, {}), expected)).toBe(true);
+  expect(Immutable.is(enumerablesReducer(undefined, {}), expected)).toBe(true);
 });
 
 /*
@@ -26,38 +27,38 @@ test('should return correct initial state', () => {
 
 test('should handle FETCH_APP_DATA_REQUEST action correctly', () => {
   const action = {
-    type: `${AppActions.FETCH_APP_DATA}_REQUEST`,
+    type: REQUEST(AppActions.FETCH_APP_DATA),
     payload: response,
   };
   const expected = initialState
     .set('fetching', true)
     .set('error', false);
-  const actual = enumberablesReducer(initialState, action);
+  const actual = enumerablesReducer(initialState, action);
   expect(Immutable.is(expected, actual)).toBe(true);
 });
 
 test('should handle FETCH_APP_DATA_SUCCESS action correctly', () => {
   const action = {
-    type: `${AppActions.FETCH_APP_DATA}_SUCCESS`,
+    type: SUCCESS(AppActions.FETCH_APP_DATA),
     payload: response,
   };
   const expected = initialState
     .set('fetching', false)
     .set('error', false)
-    .set('enumberables', response.data.enumberables);
-  const actual = enumberablesReducer(initialState, action);
+    .set('enumerables', response.data.enumerables);
+  const actual = enumerablesReducer(initialState, action);
   expect(Immutable.is(expected, actual)).toBe(true);
 });
 
 test('should handle FETCH_APP_DATA_FAILURE action correctly', () => {
   const action = {
-    type: `${AppActions.FETCH_APP_DATA}_FAILURE`,
+    type: FAILURE(AppActions.FETCH_APP_DATA),
     payload: error,
   };
   const expected = initialState
     .set('fetching', false)
     .set('error', Immutable.fromJS(error));
-  const actual = enumberablesReducer(initialState, action);
+  const actual = enumerablesReducer(initialState, action);
   expect(Immutable.is(expected, actual)).toBe(true);
 });
 

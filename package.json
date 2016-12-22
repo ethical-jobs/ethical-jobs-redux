@@ -17,8 +17,7 @@
   },
   "main": "lib/index.js",
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "peerDependencies": {
     "immutable": "^3.8.1",

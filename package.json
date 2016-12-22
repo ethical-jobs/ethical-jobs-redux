@@ -5,7 +5,7 @@
   "description": "EthicalJobs.com.au redux utility package",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf lib dist es",
+    "clean": "rimraf lib",
     "build": "BABEL_ENV=es babel src --out-dir lib",
     "test": "NODE_PATH=./src jest",
     "test-watch": "NODE_PATH=./src jest --watch"

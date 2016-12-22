@@ -15,14 +15,9 @@
       "/__tests__/_fixtures.js"
     ]
   },
-  "browser": "dist/ethical-jobs-redux.js",
   "main": "lib/index.js",
-  "module": "es/index.js",
-  "jsnext:main": "es/index.js",
   "files": [
-    "dist",
     "lib",
-    "es",
     "src"
   ],
   "peerDependencies": {

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { filterEntitiesByOrgId } from 'filters';
+import { filterEntitiesByOrgId } from '../filters';
 
 const rootSelector = (state) => state.entities.get('invoices');
 

@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import { createAction } from 'utils';
-import { response, error } from 'jobs/__tests__/_fixtures';
+import { response, error } from './_fixtures';
 import jobReducer, { initialState } from 'jobs';
 import * as ActionTypes from 'jobs/actions';
 import {

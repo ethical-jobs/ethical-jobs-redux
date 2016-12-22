@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { response, error } from 'auth/__tests__/_fixtures';
+import { response, error } from './_fixtures';
 import authReducer, { initialState } from 'auth';
 import * as ActionTypes from 'auth/actions';
 import { REQUEST, SUCCESS, FAILURE } from 'utils';

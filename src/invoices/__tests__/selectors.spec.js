@@ -1,5 +1,4 @@
 import Immutable from 'immutable';
-import { response, error } from 'invoices/__tests__/_fixtures';
 import {
   rootSelector,
   fetchingSelector,

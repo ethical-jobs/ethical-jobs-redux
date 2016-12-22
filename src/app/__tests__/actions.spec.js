@@ -1,5 +1,5 @@
-import * as AppActions from 'app/actions';
 import Api from 'api';
+import * as AppActions from 'app/actions';
 
 test('fetchAppData creates correct async action', () => {
   expect(AppActions.fetchAppData()).toEqual({

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { filterEntitiesByOrgId, filterJobsByType } from 'filters';
+import { filterEntitiesByOrgId, filterJobsByType } from '../filters';
 
 const rootSelector = (state) => state.entities.get('jobs');
 

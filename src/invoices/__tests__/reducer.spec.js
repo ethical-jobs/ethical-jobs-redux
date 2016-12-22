@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import { createAction } from 'utils';
-import { responses, error } from 'invoices/__tests__/_fixtures';
+import { responses, error } from './_fixtures';
 import invoiceReducer, { initialState } from 'invoices';
 import * as ActionTypes from 'invoices/actions';
 import {

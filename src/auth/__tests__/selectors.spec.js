@@ -1,12 +1,12 @@
 import Immutable from 'immutable';
-import { response, error } from 'auth/__tests__/_fixtures';
+import { response, error } from './_fixtures';
 import {
   rootSelector,
   fetchingSelector,
   resultSelector,
   userSelector,
   organisationSelector,
-} from 'auth/selectors';
+} from '../selectors';
 
 const state = {
   auth: Immutable.fromJS({

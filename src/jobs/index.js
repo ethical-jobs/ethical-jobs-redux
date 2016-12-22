@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
-import * as JobActions from 'jobs/actions';
-import { REQUEST, SUCCESS, FAILURE } from 'utils';
+import * as JobActions from './actions';
+import { REQUEST, SUCCESS, FAILURE } from '../utils';
 
 // Initial state
 export const initialState = Immutable.fromJS({

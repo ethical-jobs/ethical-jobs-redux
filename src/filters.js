@@ -1,4 +1,4 @@
-import { APPROVED, PENDING, EXPIRED } from 'jobTypes';
+import { APPROVED, PENDING, EXPIRED } from './jobTypes';
 
 /**
  * Returns entities filtered by {organisationId}

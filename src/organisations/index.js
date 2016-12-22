@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
-import * as OrgActions from 'organisations/actions';
-import { REQUEST, SUCCESS, FAILURE } from 'utils';
+import * as OrgActions from './actions';
+import { REQUEST, SUCCESS, FAILURE } from '../utils';
 
 // Initial state
 export const initialState = Immutable.fromJS({

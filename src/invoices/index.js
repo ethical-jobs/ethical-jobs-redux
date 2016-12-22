@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
-import * as InvoiceActions from 'invoices/actions';
-import { REQUEST, SUCCESS, FAILURE } from 'utils';
+import * as InvoiceActions from './actions';
+import { REQUEST, SUCCESS, FAILURE } from '../utils';
 
 // Initial state
 export const initialState = Immutable.fromJS({

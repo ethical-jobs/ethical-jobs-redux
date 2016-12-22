@@ -1,12 +1,10 @@
 {
   "name": "ethical-jobs-redux",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au redux utility package",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf lib",
-    "build": "BABEL_ENV=es babel src --out-dir lib",
     "test": "NODE_PATH=./src jest",
     "test-watch": "NODE_PATH=./src jest --watch"
   },
@@ -15,9 +13,9 @@
       "/__tests__/_fixtures.js"
     ]
   },
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "files": [
-    "lib"
+    "src"
   ],
   "peerDependencies": {
     "immutable": "^3.8.1",

@@ -9,13 +9,7 @@ var config = {
     libraryTarget: 'umd'
   },
   module: {
-    loaders: [
-      {
-        test: /(\.jsx|\.js)$/,
-        loader: 'babel',
-        exclude: [/node_modules/,/__tests__/]
-      }
-    ]
+    loaders: []
   },
   resolve: {
     modulesDirectories: ['src', 'node_modules'],
@@ -29,23 +23,5 @@ var config = {
     })
   ]
 };
-
-if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true, // React doesn't support IE8
-        warnings: false,
-      },
-      mangle: {
-        screw_ie8: true,
-      },
-      output: {
-        comments: false,
-        screw_ie8: true,
-      },
-    })
-  )
-}
 
 module.exports = config;

@@ -15,7 +15,7 @@ import {
 |--------------------------------------------------------------------------
 */
 
-test('should return correct initial state', () => {
+test('should return correct initial state ', () => {
   const expected = Immutable.fromJS({
     fetching: false,
     error: false,

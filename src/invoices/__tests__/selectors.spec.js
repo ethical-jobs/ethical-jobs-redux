@@ -37,7 +37,7 @@ test('rootSelector returns correct state slice', () => {
   expect(Immutable.is(expected, actual)).toBe(true);
 });
 
-test('fetching selector returns correct state slice', () => {
+test('fetching selector returns correct state slice ', () => {
   expect(fetchingSelector(state)).toBe(true);
 });
 

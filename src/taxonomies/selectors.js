@@ -1,8 +1,8 @@
-const rootSelector = (state) => state.entities.get('enumerables');
+const rootSelector = (state) => state.entities.get('taxonomies');
 
-const fetchingSelector = (state) => state.entities.getIn(['enumerables','fetching']);
+const fetchingSelector = (state) => state.entities.getIn(['taxonomies','fetching']);
 
-const taxonomiesSelector = (state) => state.entities.getIn(['credits','taxonomies']);
+const taxonomiesSelector = (state) => state.entities.getIn(['taxonomies','taxonomies']);
 
 export {
   rootSelector,

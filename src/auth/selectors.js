@@ -1,32 +1,25 @@
 import { createSelector } from 'reselect';
-import { isSuperAdmin } from 'library/auth';
 
-const authSelector = (state) => state.auth;
+const rootSelector = (state) => state.auth;
 
-const entitiesSelector = createSelector(
-  authSelector,
-  (auth) => auth.entities
-);
+const fetchingSelector = (state) => state.auth.getIn(['jobs','fetching']);
+
+const resultSelector = (state) => state.auth.getIn(['jobs','result']);
 
 const userSelector = createSelector(
-  [entitiesSelector, authSelector],
-  (entities, auth) => entities.users && auth.result ? entities.users[auth.result] : null // assume its the first user, cause it just is!
+  rootSelector,
+  (auth) => auth.getIn(['entities','users'])
 );
 
 const organisationSelector = createSelector(
-  entitiesSelector,
-  userSelector,
-  (entities, user) => entities && entities.organisations && user ? entities.organisations[user.organisation_id] : null
-);
-
-const isSuperAdminSelector = createSelector(
-  userSelector,
-  (user) => isSuperAdmin(user)
+  [rootSelector, userSelector],
+  (auth, user) => auth.getIn(['entities','organisations']).get(user.get('organisation_id').toString())
 );
 
 export {
-  authSelector,
+  rootSelector,
+  fetchingSelector,
+  resultSelector,
   userSelector,
   organisationSelector,
-  isSuperAdminSelector,
 };

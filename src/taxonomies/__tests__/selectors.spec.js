@@ -8,7 +8,7 @@ import {
 
 const state = {
   entities: Immutable.fromJS({
-    credits: {
+    taxonomies: {
       fetching: true,
       error: false,
       taxonomies: {
@@ -42,7 +42,7 @@ const state = {
 };
 
 test('rootSelector returns correct state slice', () => {
-  const expected = state.entities.get('credits');
+  const expected = state.entities.get('taxonomies');
   const actual = rootSelector(state);
   expect(Immutable.is(expected, actual)).toBe(true);
 });

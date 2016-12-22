@@ -27,7 +27,7 @@ const state = {
   }),
 };
 
-test('rootSelector returns correct state slice', () => {
+test('rootSelector returns correct state slice ', () => {
   const expected = state.entities.get('credits');
   const actual = rootSelector(state);
   expect(Immutable.is(expected, actual)).toBe(true);

@@ -10,7 +10,7 @@ import { response, error } from 'app/__tests__/_fixtures';
 |--------------------------------------------------------------------------
 */
 
-test('should return correct initial state', () => {
+test('should return correct initial state ', () => {
   const expected = Immutable.fromJS({
     fetching: false,
     error: false,

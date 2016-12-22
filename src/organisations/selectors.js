@@ -1,62 +1,43 @@
 import { createSelector } from 'reselect';
-import { mapObjectToArray } from 'library/map';
 
-const baseSelector = (state) => state.entities.organisations;
+const rootSelector = (state) => state.entities.get('organisations');
 
-const requestingSelector = createSelector(
-  baseSelector,
-  (base) => base._requesting
-);
+const fetchingSelector = (state) => state.entities.getIn(['organisations','fetching']);
 
-const entitiesSelector = createSelector(
-  baseSelector,
-  (base) => base.entities
-);
+const querySelector = (state) => state.entities.getIn(['organisations','query']);
 
-//
-// Organisations
-//
+const filtersSelector = (state) => state.entities.getIn(['organisations','filters']);
+
+const resultSelector = (state) => state.entities.getIn(['organisations','result']);
 
 const organisationsSelector = createSelector(
-  entitiesSelector,
-  (entities) => entities.organisations
+  rootSelector,
+  (root) => root.getIn(['entities','organisations'])
 );
-
-const organisationsArraySelector = createSelector(
-  organisationsSelector,
-  (organisations) => mapObjectToArray(organisations)
-);
-
-//
-// Single Organisation
-//
-
-const organisationResultSelector = state => state.entities.organisations.result;
-
-const organisationByIdSelector = createSelector(
-  [organisationsSelector, organisationResultSelector],
-  (organisations, result) => organisations && result ? organisations[result] : null
-);
-
-//
-// Organisation users selectors
-//
 
 const usersSelector = createSelector(
-  entitiesSelector,
-  (entities) => entities.users
+  rootSelector,
+  (root) => root.getIn(['entities','users'])
 );
 
+const organisationByIdSelector = createSelector(
+  [organisationsSelector, resultSelector],
+  (organisations, result) => organisations.get(result.first().toString())
+);
 
 const organisationOwnerSelector = createSelector(
   [usersSelector, organisationByIdSelector],
-  (users, organisation) => users && organisation ? users[organisation.owner_id] : null
+  (users, organisation) => users.get(organisation.get('owner_id').toString())
 );
 
 export {
-  requestingSelector,
+  rootSelector,
+  fetchingSelector,
+  querySelector,
+  filtersSelector,
+  resultSelector,
   organisationsSelector,
-  organisationsArraySelector,
+  usersSelector,
   organisationByIdSelector,
   organisationOwnerSelector,
 };

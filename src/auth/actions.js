@@ -31,17 +31,17 @@ export const logout = () => ({
 
 export const load = () => ({
   type: LOAD,
-  payload: Api.loadAuth(),
+  payload: Api.load(),
 });
 
 export const recover = (params) => ({
   type: RECOVER,
-  payload: Api.recoverPassword(params),
+  payload: Api.recover(params),
 });
 
 export const reset = (params) => ({
   type: RESET,
-  payload: Api.resetPassword(params),
+  payload: Api.reset(params),
 });
 
 /*

@@ -11,8 +11,6 @@
     "build:umd": "BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/ethical-jobs-redux.js",
     "build:umd:min": "BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/ethical-jobs-redux.min.js",
     "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min",
-    "prepublish": "npm run clean && npm run build && npm run test",
-    "dev": "webpack --progress --colors --watch --mode=dev",
     "test": "NODE_PATH=./src jest",
     "test-watch": "NODE_PATH=./src jest --watch"
   },

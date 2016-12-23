@@ -5,6 +5,13 @@
   "description": "EthicalJobs.com.au redux utility package",
   "license": "MIT",
   "scripts": {
+    "clean": "rimraf lib dist es coverage",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es": "BABEL_ENV=es babel src --out-dir es",
+    "build:umd": "BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/ethical-jobs-redux.js",
+    "build:umd:min": "BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/ethical-jobs-redux.min.js",
+    "prebuild": "npm run clean",
+    "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min",
     "test": "NODE_PATH=./src jest",
     "test-watch": "NODE_PATH=./src jest --watch"
   },

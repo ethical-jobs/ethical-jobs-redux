@@ -12,7 +12,7 @@ import Client from 'ethical-jobs-sdk';
 
 const api = new Client();
 
-const environment = window && window.__env && window.__env.ETHICAL_JOBS_ENV.toLowerCase();
+const environment = window.__env && window.__env.ETHICAL_JOBS_ENV && window.__env.ETHICAL_JOBS_ENV.toLowerCase();
 
 switch (environment) {
   case 'production':

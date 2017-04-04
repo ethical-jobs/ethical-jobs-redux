@@ -12,6 +12,11 @@
     "test-watch": "jest --watch"
   },
   "main": "lib/ethical-jobs-redux.js",
+  "jsnext:main": "src/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],    
   "peerDependencies": {
     "immutable": "^3.8.0",
     "reselect": "^2.5.0"

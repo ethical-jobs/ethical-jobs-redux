@@ -40,15 +40,15 @@ test('fetchCollection creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
   expect(fetchCollection(params)).toEqual({
     type: ActionTypes.FETCH_COLLECTION,
-    payload: Api.fetchJobs(params),
+    payload: Api.get('/jobs', params),
   });
 });
 
 test('fetchEntity creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
-  expect(fetchEntity(params)).toEqual({
+  expect(fetchEntity(123, params)).toEqual({
     type: ActionTypes.FETCH_ENTITY,
-    payload: Api.fetchJob(params),
+    payload: Api.get(`/jobs/123`, params),
   });
 });
 
@@ -56,55 +56,55 @@ test('create action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
   expect(create(params)).toEqual({
     type: ActionTypes.CREATE,
-    payload: Api.createJob(params),
+    payload: Api.post('/jobs', params),
   });
 });
 
 test('update action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
-  expect(update(params)).toEqual({
+  expect(update(123, params)).toEqual({
     type: ActionTypes.UPDATE,
-    payload: Api.updateJob(params),
+    payload: Api.put(`/jobs/123`, params),
   });
 });
 
 test('archive action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
-  expect(archive(params)).toEqual({
+  expect(archive(123)).toEqual({
     type: ActionTypes.ARCHIVE,
-    payload: Api.archiveJob(params),
+    payload: Api.delete(`/jobs/123`),
   });
 });
 
 test('approve action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
-  expect(approve(params)).toEqual({
+  expect(approve(123)).toEqual({
     type: ActionTypes.APPROVE,
-    payload: Api.approveJob(params),
+    payload: Api.approve(123),
   });
 });
 
 test('expire action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
-  expect(expire(params)).toEqual({
+  expect(expire(123)).toEqual({
     type: ActionTypes.EXPIRE,
-    payload: Api.expireJob(params),
+    payload: Api.expire(123),
   });
 });
 
 test('attachMedia action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
-  expect(attachMedia(params)).toEqual({
+  expect(attachMedia(123, 'form-data')).toEqual({
     type: ActionTypes.ATTACH,
-    payload: Api.attachJobMedia(params),
+    payload: Api.attachMedia(123, 'form-data'),
   });
 });
 
 test('detachMedia action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
-  expect(detachMedia(params)).toEqual({
+  expect(detachMedia(123, 456)).toEqual({
     type: ActionTypes.DETACH,
-    payload: Api.detachJobMedia(params),
+    payload: Api.detachMedia(123, 456),
   });
 });
 

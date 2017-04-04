@@ -15,19 +15,9 @@ const organisationsSelector = createSelector(
   (root) => root.getIn(['entities','organisations'])
 );
 
-const usersSelector = createSelector(
-  rootSelector,
-  (root) => root.getIn(['entities','users'])
-);
-
 const organisationByIdSelector = createSelector(
   [organisationsSelector, resultSelector],
   (organisations, result) => organisations.get(result.first().toString())
-);
-
-const organisationOwnerSelector = createSelector(
-  [usersSelector, organisationByIdSelector],
-  (users, organisation) => users.get(organisation.get('owner_id').toString())
 );
 
 export {
@@ -37,7 +27,5 @@ export {
   filtersSelector,
   resultSelector,
   organisationsSelector,
-  usersSelector,
   organisationByIdSelector,
-  organisationOwnerSelector,
 };

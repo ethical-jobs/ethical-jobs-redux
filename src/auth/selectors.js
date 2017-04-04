@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { Map } from 'immutable';
 
 const rootSelector = (state) => state.auth;
 
@@ -8,12 +9,14 @@ const resultSelector = (state) => state.auth.get('result');
 
 const userSelector = createSelector(
   [rootSelector, resultSelector],
-  (auth, result) => auth.getIn(['entities','users']).get(result.first().toString())
+  (auth, result) => auth.getIn(['entities','users'], Map())
+    .get(result.first().toString(), Map())
 );
 
 const organisationSelector = createSelector(
   [rootSelector, userSelector],
-  (auth, user) => auth.getIn(['entities','organisations']).get(user.get('organisation_id').toString())
+  (auth, user) => auth.getIn(['entities','organisations'], Map())
+    .get(user.get('organisation_id', '').toString(), Map())
 );
 
 export {

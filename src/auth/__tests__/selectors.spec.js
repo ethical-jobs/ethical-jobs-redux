@@ -56,8 +56,22 @@ test('userSelector selector returns correct state slice', () => {
   expect(Immutable.is(expected, actual)).toBe(true);
 });
 
+test('userSelector selector returns a Map when state is empty', () => {
+  const state = { auth: Immutable.fromJS({ result: [10] }) };
+  const expected = Immutable.fromJS({});
+  const actual = userSelector(state);
+  expect(Immutable.is(expected, actual)).toBe(true);
+});
+
 test('organisationSelector selector returns correct state slice', () => {
   const expected = state.auth.getIn(['entities','organisations']).first();
+  const actual = organisationSelector(state);
+  expect(Immutable.is(expected, actual)).toBe(true);
+});
+
+test('organisationSelector selector returns a Map when state is empty', () => {
+  const state = { auth: Immutable.fromJS({ result: [10] }) };
+  const expected = Immutable.fromJS({});
   const actual = organisationSelector(state);
   expect(Immutable.is(expected, actual)).toBe(true);
 });

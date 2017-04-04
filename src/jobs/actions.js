@@ -28,47 +28,47 @@ export const UPDATE_QUERY = createActionType('JOBS/UPDATE_QUERY');
 
 export const fetchCollection = (params) => ({
   type: FETCH_COLLECTION,
-  payload: Api.fetchJobs(params),
+  payload: Api.get('/jobs', params),
 });
 
-export const fetchEntity = (params) => ({
+export const fetchEntity = (id) => ({
   type: FETCH_ENTITY,
-  payload: Api.fetchJob(params),
+  payload: Api.get(`/jobs/${id}`),
 });
 
 export const create = (params) => ({
   type: CREATE,
-  payload: Api.createJob(params),
+  payload: Api.post('/jobs', params),
 });
 
-export const update = (params) => ({
+export const update = (id, params) => ({
   type: UPDATE,
-  payload: Api.updateJob(params),
+  payload: Api.put(`/jobs/${id}`, params),
 });
 
-export const archive = (params) => ({
+export const archive = (id) => ({
   type: ARCHIVE,
-  payload: Api.archiveJob(params),
+  payload: Api.delete(`/jobs/${id}`),
 });
 
-export const approve = (params) => ({
+export const approve = (id) => ({
   type: APPROVE,
-  payload: Api.approveJob(params),
+  payload: Api.approve(id),
 });
 
-export const expire = (params) => ({
+export const expire = (id) => ({
   type: EXPIRE,
-  payload: Api.expireJob(params),
+  payload: Api.expire(id),
 });
 
-export const attachMedia = (params) => ({
+export const attachMedia = (id, formData) => ({
   type: ATTACH,
-  payload: Api.attachJobMedia(params),
+  payload: Api.attachMedia(id, formData),
 });
 
-export const detachMedia = (params) => ({
+export const detachMedia = (id, attachmentId) => ({
   type: DETACH,
-  payload: Api.detachJobMedia(params),
+  payload: Api.detachMedia(id, attachmentId),
 });
 
 /*

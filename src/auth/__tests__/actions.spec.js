@@ -36,7 +36,7 @@ test('recover action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
   expect(recover(params)).toEqual({
     type: ActionTypes.RECOVER,
-    payload: Api.recover(params),
+    payload: Api.recoverPassword(params),
   });
 });
 
@@ -44,6 +44,6 @@ test('reset action creates correct action', () => {
   const params = { foo: 'bar', bar: 'foo' };
   expect(reset(params)).toEqual({
     type: ActionTypes.RESET,
-    payload: Api.reset(params),
+    payload: Api.resetPassword(params),
   });
 });

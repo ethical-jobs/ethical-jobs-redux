@@ -1,3 +1,4 @@
+import 'isomorphic-fetch';
 import Client from 'ethical-jobs-sdk';
 
 /*
@@ -10,21 +11,8 @@ import Client from 'ethical-jobs-sdk';
 |
 */
 
-const api = new Client();
+const environment = window.__env && window.__env.ETHICAL_JOBS_ENV && window.__env.ETHICAL_JOBS_ENV;
 
-const environment = window.__env && window.__env.ETHICAL_JOBS_ENV && window.__env.ETHICAL_JOBS_ENV.toLowerCase();
-
-switch (environment) {
-  case 'production':
-    api.setEnvironment('production');
-    break;
-  case 'staging':
-    api.setEnvironment('test');
-    break;
-  default:
-  case 'development':
-    api.setEnvironment('development');
-    break;
-}
+const api = new Client((environment || 'development').toLowerCase());
 
 export default api;

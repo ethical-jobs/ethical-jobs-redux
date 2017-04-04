@@ -7,7 +7,10 @@ export const initialState = Immutable.fromJS({
   fetching: false,
   error: false,
   result: Immutable.Set(),
-  entities: Immutable.Map(),
+  entities: {
+    users: Immutable.Map(),
+    organisations: Immutable.Map(),
+  },
 });
 
 /**

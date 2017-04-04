@@ -24,27 +24,27 @@ export const UPDATE_FILTER = createActionType('INVOICES/UPDATE_FILTER');
 
 export const fetchCollection = (params) => ({
   type: FETCH_COLLECTION,
-  payload: Api.fetchInvoices(params),
+  payload: Api.get('/invoices', params),
 });
 
-export const fetchEntity = (params) => ({
+export const fetchEntity = (id) => ({
   type: FETCH_ENTITY,
-  payload: Api.fetchInvoice(params),
+  payload: Api.get(`/invoices/${id}`),
 });
 
 export const create = (params) => ({
   type: CREATE,
-  payload: Api.createInvoice(params),
+  payload: Api.post('/invoices', params),
 });
 
 export const update = (params) => ({
   type: UPDATE,
-  payload: Api.updateInvoice(params),
+  payload: Api.put('/invoices', params),
 });
 
-export const archive = (params) => ({
+export const archive = (id) => ({
   type: ARCHIVE,
-  payload: Api.archiveInvoice(params),
+  payload: Api.delete(`/invoices/${id}`),
 });
 
 /*

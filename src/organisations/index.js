@@ -50,7 +50,6 @@ export default function reducer(state = initialState, action = {}) {
     case SUCCESS(OrgActions.FETCH_COLLECTION):
     case SUCCESS(OrgActions.FETCH_ENTITY):
     case SUCCESS(OrgActions.CREATE):
-    case SUCCESS(OrgActions.CREATE):
     case SUCCESS(OrgActions.UPDATE):
     case SUCCESS(OrgActions.ARCHIVE):
       return state

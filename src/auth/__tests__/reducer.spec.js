@@ -15,7 +15,10 @@ test('should return correct initial state ', () => {
     fetching: false,
     error: false,
     result: Immutable.Set(),
-    entities: Immutable.Map(),
+    entities: {
+      users: Immutable.Map(),
+      organisations: Immutable.Map(),
+    },
   });
   const actual = authReducer(undefined);
   expect(Immutable.is(actual, expected)).toBe(true);

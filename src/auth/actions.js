@@ -36,12 +36,12 @@ export const load = () => ({
 
 export const recover = (params) => ({
   type: RECOVER,
-  payload: Api.recover(params),
+  payload: Api.recoverPassword(params),
 });
 
 export const reset = (params) => ({
   type: RESET,
-  payload: Api.reset(params),
+  payload: Api.resetPassword(params),
 });
 
 /*

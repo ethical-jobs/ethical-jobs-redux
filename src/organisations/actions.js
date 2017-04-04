@@ -27,42 +27,37 @@ export const UPDATE_FILTER = createActionType('ORGANISATIONS/UPDATE_FILTER');
 
 export const fetchCollection = (params) => ({
   type: FETCH_COLLECTION,
-  payload: Api.fetchInvoices(params),
+  payload: Api.get('/organisations', params),
 });
 
-export const fetchEntity = (params) => ({
+export const fetchEntity = (id) => ({
   type: FETCH_ENTITY,
-  payload: Api.fetchInvoice(params),
+  payload: Api.get(`/organisation/${id}`),
 });
 
 export const create = (params) => ({
   type: CREATE,
-  payload: Api.createInvoice(params),
+  payload: Api.post('/organisations', params),
 });
 
-export const update = (params) => ({
+export const update = (id, params) => ({
   type: UPDATE,
-  payload: Api.updateInvoice(params),
+  payload: Api.put(`/organisations/${id}`, params),
 });
 
-export const archive = (params) => ({
+export const archive = (id) => ({
   type: ARCHIVE,
-  payload: Api.archiveInvoice(params),
+  payload: Api.delete(`/organisations/${id}`),
 });
 
 export const createCredits = (params) => ({
   type: CREATE_CREDITS,
-  payload: Api.xxx(params),
+  payload: Api.post('/credits', params),
 });
 
 export const deductCredits = (params) => ({
   type: DEDUCT_CREDITS,
-  payload: Api.xxx(params),
-});
-
-export const uploadLogo = (params) => ({
-  type: UPLOAD_LOGO,
-  payload: Api.xxx(params),
+  payload: Api.delete('/credits', params),
 });
 
 /*

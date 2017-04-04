@@ -1,51 +1,54 @@
-var webpack = require('webpack');
-var path = require('path');
+const {
+  webpack, createConfig, customConfig, defineConstants, env, performance, addPlugins, entryPoint, setOutput, sourceMaps,
+} = require('@webpack-blocks/webpack2');
 
-var env = process.env.NODE_ENV;
+const babel = require('@webpack-blocks/babel6');
+const devServer = require('@webpack-blocks/dev-server2');
+const path = require('path');
 
-var config = {
-  output: {
+const plugins = [
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false
+  }),  
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    },
+    output: {
+      comments: false
+    },
+    screwIe8: true,
+    sourceMap: false
+  }),
+];
+
+module.exports = createConfig([
+  entryPoint(path.resolve(__dirname, 'src/index.js')),
+  setOutput({
+    path: path.resolve(__dirname, 'lib'),
+    filename: 'ethical-jobs-redux.js',
     library: 'EthicalJobsRedux',
-    libraryTarget: 'umd'
-  },
-  module: {
-    loaders: [
-      {
-        test: /(\.jsx|\.js)$/,
-        loader: 'babel',
-        exclude: [/node_modules/,/__tests__/]
-      }
-    ]
-  },
-  resolve: {
-    modulesDirectories: ['src', 'node_modules'],
-    root: path.resolve('./src'),
-    extensions: ['', '.js']
-  },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env)
-    })
-  ]
-};
-
-if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true, // React doesn't support IE8
-        warnings: false,
-      },
-      mangle: {
-        screw_ie8: true,
-      },
-      output: {
-        comments: false,
-        screw_ie8: true,
-      },
-    })
-  )
-}
-
-module.exports = config;
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
+  }),
+  babel(),
+  defineConstants({
+    'process.env.NODE_ENV': process.env.NODE_ENV
+  }),
+  customConfig({
+    resolve: {
+      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    },
+  }),
+  env('development', [
+    sourceMaps(),
+    performance({
+      maxAssetSize: 1500000,
+      maxEntrypointSize: 1500000,
+    }),
+  ]),
+  env('production', [  
+    addPlugins(plugins),
+  ]),
+])

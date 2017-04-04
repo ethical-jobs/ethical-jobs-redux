@@ -17,5 +17,5 @@ export const FETCH_APP_DATA = createActionType('APP/FETCH_DATA');
 
 export const fetchAppData = () => ({
   type: FETCH_APP_DATA,
-  payload: Api.initialize(),
+  payload: Api.get('/'),
 });

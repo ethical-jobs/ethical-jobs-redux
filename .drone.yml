@@ -8,7 +8,7 @@ pipeline:
       - yarn run build
       - yarn run test
 
-  publish:
+  publish: 
     image: plugins/npm
     username: ethicaljobs
     password: ${NPM_PASSWORD}

@@ -5,7 +5,7 @@
         "browsers": ["last 2 versions", "IE >= 11"]
       }
     }],
-    ["es2015", { "modules": false }],
+    "es2015",
     "stage-0"
   ]
 }

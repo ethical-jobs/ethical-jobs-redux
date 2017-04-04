@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-redux",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au redux utility package",
   "license": "MIT",
@@ -12,7 +12,6 @@
     "test-watch": "jest --watch"
   },
   "main": "lib/ethical-jobs-redux.js",
-  "jsnext:main": "src/index.js",
   "files": [
     "lib",
     "src"

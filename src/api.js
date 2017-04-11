@@ -1,5 +1,4 @@
-import 'isomorphic-fetch';
-import Client from 'ethical-jobs-sdk';
+import { Client } from 'ethical-jobs-sdk';
 
 /*
 |--------------------------------------------------------------------------
@@ -11,8 +10,6 @@ import Client from 'ethical-jobs-sdk';
 |
 */
 
-const environment = window.__env && window.__env.ETHICAL_JOBS_ENV && window.__env.ETHICAL_JOBS_ENV;
-
-const api = new Client((environment || 'development').toLowerCase());
+const api = new Client('development');
 
 export default api;

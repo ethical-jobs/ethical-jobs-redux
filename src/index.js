@@ -1,28 +1,17 @@
-export * as AppActions from './app/actions';
+// Redux modules
+// export { default as App } from './modules/app';
+// export { default as Auth } from './modules/auth';
+// export { default as Credits } from './modules/credits';
+// export { default as Enumerables } from './modules/enumerables';
+// export { default as Invoices } from './modules/invoices';
+export { default as Jobs } from './modules/jobs';
+// export { default as Organisations } from './modules/organisations';
+// export { default as Taxonomies } from './modules/taxonomies';
+// export { default as Users } from './modules/users';
 
-export authReducer from './auth';
-export * as AuthActions from './auth/actions';
-export * as AuthSelectors from './auth/selectors';
+// Redux middleware
+// export { default as middleware } from './middleware';
 
-export creditsReducer from './credits';
-export * as CreditSelectors from './credits/selectors';
-
-export enumerablesReducer from './enumerables';
-export * as EnumerableSelectors from './enumerables/selectors';
-
-export invoiceReducer from './invoices';
-export * as InvoiceActions from './invoices/actions';
-export * as InvoiceSelectors from './invoices/selectors';
-
-export jobsReducer from './jobs';
-export * as JobsActions from './jobs/actions';
-export * as JobsSelectors from './jobs/selectors';
-
-export organisationsReducer from './organisations';
-export * as OrganisationActions from './organisations/actions';
-export * as OrganisationSelectors from './organisations/selectors';
-
-export taxonomiesReducer from './taxonomies';
-export * as TaxonomiesSelectors from './taxonomies/selectors';
-
-export * as UserActions from './users/actions';
+// Misc
+// export * as Utils from './utils';
+// export { default as Middleware } from './middleware';

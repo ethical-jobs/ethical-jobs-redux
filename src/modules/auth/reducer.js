@@ -1,20 +1,18 @@
 import Immutable from 'immutable';
 import * as AuthActions from './actions';
-import { REQUEST, SUCCESS, FAILURE } from '../../utils';
+import * as Utils from '../../utils';
+import { REQUEST, SUCCESS, FAILURE } from '../../actionTypes';
 
 // Initial state
 export const initialState = Immutable.fromJS({
   fetching: false,
   error: false,
   result: Immutable.Set(),
-  entities: {
-    users: Immutable.Map(),
-    organisations: Immutable.Map(),
-  },
+  entities: Immutable.Map(),
 });
 
 /**
- * ...
+ * Auth reducer
  *
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
@@ -24,31 +22,19 @@ export default function reducer(state = initialState, action = {}) {
     case REQUEST(AuthActions.LOGIN):
     case REQUEST(AuthActions.LOGOUT):
     case REQUEST(AuthActions.LOAD):
-      return state
-        .set('fetching', true)
-        .set('error', false);
+      return Utils.mergeRequest(state);
 
     case SUCCESS(AuthActions.LOGIN):
     case SUCCESS(AuthActions.LOAD):
-      return state
-        .set('fetching', false)
-        .set('error', false)
-        .update('entities', entities => entities.mergeDeep(action.payload.data.entities))
-        .update('result', result => result.union(action.payload.data.result));
+      return Utils.mergeSuccess(state, action.payload);
 
     case SUCCESS(AuthActions.LOGOUT):
-      return state
-        .set('fetching', false)
-        .set('error', false)
-        .update('entities', entities => entities.clear())
-        .update('result', result => result.clear());
+      return initialState;
 
     case FAILURE(AuthActions.LOGIN):
     case FAILURE(AuthActions.LOGOUT):
     case FAILURE(AuthActions.LOAD):
-      return state
-        .set('fetching', false)
-        .set('error', Immutable.fromJS(action.payload));
+      return Utils.mergeFailure(state, action.payload);
 
     default:
       return state;

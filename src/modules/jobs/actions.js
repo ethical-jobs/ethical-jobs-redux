@@ -26,7 +26,7 @@ export const UPDATE_FILTER = createActionType('JOBS/UPDATE_FILTER');
 |--------------------------------------------------------------------------
 */
 
-export const fetchCollection = (params) => ({
+export const fetchCollection = params => ({
   type: FETCH_COLLECTION,
   payload: Api.get('/jobs', params),
 });
@@ -36,12 +36,12 @@ export const fetchEntity = (id) => ({
   payload: Api.get(`/jobs/${id}`),
 });
 
-export const search = (params) => ({
+export const search = params => ({
   type: SEARCH,
   payload: Api.search('jobs', params),
 });
 
-export const create = (params) => ({
+export const create = params => ({
   type: CREATE,
   payload: Api.post('/jobs', params),
 });
@@ -51,17 +51,17 @@ export const update = (id, params) => ({
   payload: Api.put(`/jobs/${id}`, params),
 });
 
-export const archive = (id) => ({
+export const archive = id => ({
   type: ARCHIVE,
   payload: Api.delete(`/jobs/${id}`),
 });
 
-export const approve = (id) => ({
+export const approve = id => ({
   type: APPROVE,
   payload: Api.jobs.approve(id),
 });
 
-export const expire = (id) => ({
+export const expire = id => ({
   type: EXPIRE,
   payload: Api.jobs.expire(id),
 });
@@ -86,7 +86,7 @@ export const clearJobs = () => ({
   type: CLEAR_ENTITIES,
 });
 
-export const updateFilter = (filter) => ({
+export const updateFilter = filter => ({
   type: UPDATE_FILTER,
   payload: filter,
 });

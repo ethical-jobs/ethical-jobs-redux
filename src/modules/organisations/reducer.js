@@ -1,13 +1,13 @@
 import Immutable from 'immutable';
 import * as OrgActions from './actions';
-import { REQUEST, SUCCESS, FAILURE } from '../../utils';
+import * as Utils from '../../utils';
+import { REQUEST, SUCCESS, FAILURE } from '../../actionTypes';
 
 // Initial state
 export const initialState = Immutable.fromJS({
   fetching: false,
   error: false,
-  query: '',
-  filters: {},
+  filters: Immutable.Map(),
   result: Immutable.Set(),
   entities: Immutable.Map(),
 });
@@ -21,19 +21,13 @@ export const initialState = Immutable.fromJS({
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case OrgActions.CLEAR_ENTITIES:
-      return state
-        .update('entities', entities => entities.clear())
-        .update('result', result => result.clear());
-
-    case OrgActions.UPDATE_QUERY:
-      return state
-        .set('query', action.payload)
-        .update('entities', entities => entities.clear())
-        .update('result', result => result.clear());
+      return Utils.clearEntities(state);
 
     case OrgActions.UPDATE_FILTER:
-      return state
-        .mergeDeep({ filters: action.payload });
+      return Utils.updateFilters(state, action.payload);
+
+    case REQUEST(OrgActions.SEARCH):
+      return Utils.mergeSearchRequest(state);
 
     case REQUEST(OrgActions.FETCH_COLLECTION):
     case REQUEST(OrgActions.FETCH_ENTITY):
@@ -42,28 +36,16 @@ export default function reducer(state = initialState, action = {}) {
     case REQUEST(OrgActions.ARCHIVE):
     case REQUEST(OrgActions.CREATE_CREDITS):
     case REQUEST(OrgActions.DEDUCT_CREDITS):
-    case REQUEST(OrgActions.UPLOAD_LOGO):
-      return state
-        .set('fetching', true)
-        .set('error', false);
+      return Utils.mergeRequest(state);
 
     case SUCCESS(OrgActions.FETCH_COLLECTION):
     case SUCCESS(OrgActions.FETCH_ENTITY):
     case SUCCESS(OrgActions.CREATE):
     case SUCCESS(OrgActions.UPDATE):
     case SUCCESS(OrgActions.ARCHIVE):
-      return state
-        .set('fetching', false)
-        .set('error', false)
-        .update('entities', entities => entities.mergeDeep(action.payload.data.entities))
-        .update('result', result => result.union(action.payload.data.result));
-
-    case FAILURE(OrgActions.CREATE_CREDITS):
-    case FAILURE(OrgActions.DEDUCT_CREDITS):
-    case FAILURE(OrgActions.UPLOAD_LOGO):
-      return state
-        .set('fetching', false)
-        .set('error', false);
+    case SUCCESS(OrgActions.CREATE_CREDITS):
+    case SUCCESS(OrgActions.DEDUCT_CREDITS):
+      return Utils.mergeSuccess(state, action.payload);
 
     case FAILURE(OrgActions.FETCH_COLLECTION):
     case FAILURE(OrgActions.FETCH_ENTITY):
@@ -73,10 +55,7 @@ export default function reducer(state = initialState, action = {}) {
     case FAILURE(OrgActions.ARCHIVE):
     case FAILURE(OrgActions.CREATE_CREDITS):
     case FAILURE(OrgActions.DEDUCT_CREDITS):
-    case FAILURE(OrgActions.UPLOAD_LOGO):
-      return state
-        .set('fetching', false)
-        .set('error', Immutable.fromJS(action.payload));
+      return Utils.mergeFailure(state, action.payload);
 
     default:
       return state;

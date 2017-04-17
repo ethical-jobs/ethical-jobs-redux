@@ -1,70 +1,69 @@
-import Api from 'api';
+import sinon from 'sinon';
 import Invoices from 'modules/invoices';
 
-test('clearInvoices creates correct action', () => {
-  expect(Invoices.actions.clearInvoices()).toEqual({
-    type: Invoices.actions.CLEAR_ENTITIES,
-  });
+const { actions } = Invoices;
+
+const params = { foo: 'bar', bar: 'foo' };
+
+beforeEach(() => {
+  sinon.stub(window, 'fetch').resolves({ ok: true });
 });
 
-test('updateQuery creates correct action', () => {
-  expect(Invoices.actions.updateFilter('Foo bar bam...')).toEqual({
-    type: Invoices.actions.UPDATE_FILTER,
-    payload: 'Foo bar bam...',
+afterEach(() => {
+  window.fetch.restore();
+});
+
+test('clearInvoices creates correct action', () => {
+  expect(actions.clearInvoices()).toEqual({
+    type: actions.CLEAR_ENTITIES,
   });
 });
 
 test('updateFilter creates correct action', () => {
-  const filter = { foo: 'bar' };
-  expect(Invoices.actions.updateFilter(filter)).toEqual({
-    type: Invoices.actions.UPDATE_FILTER,
-    payload: filter,
+  expect(actions.updateFilter(params)).toEqual({
+    type: actions.UPDATE_FILTER,
+    payload: params,
   });
 });
 
 test('fetchCollection creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Invoices.actions.fetchCollection(params)).toEqual({
-    type: Invoices.actions.FETCH_COLLECTION,
-    payload: Api.get('/invoices', params),
+  expect(actions.fetchCollection(params)).toEqual({
+    type: actions.FETCH_COLLECTION,
+    payload: new Promise(() => {}),
   });
 });
 
 test('fetchEntity creates correct action', () => {
-  expect(Invoices.actions.fetchEntity(123)).toEqual({
-    type: Invoices.actions.FETCH_ENTITY,
-    payload: Api.get('/invoices/123'),
+  expect(actions.fetchEntity(123)).toEqual({
+    type: actions.FETCH_ENTITY,
+    payload: new Promise(() => {}),
   });
 });
 
 test('search action creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Invoices.actions.search(params)).toEqual({
-    type: Invoices.actions.SEARCH,
-    payload: Api.post('/search/invoices', params),
+  expect(actions.search(params)).toEqual({
+    type: actions.SEARCH,
+    payload: new Promise(() => {}),
   });
 });
 
 test('create action creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Invoices.actions.create(params)).toEqual({
-    type: Invoices.actions.CREATE,
-    payload: Api.post('/invoices', params),
+  expect(actions.create(params)).toEqual({
+    type: actions.CREATE,
+    payload: new Promise(() => {}),
   });
 });
 
 test('update action creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Invoices.actions.update(123, params)).toEqual({
-    type: Invoices.actions.UPDATE,
-    payload: Api.put('/invoices/123', params),
+  expect(actions.update(123, params)).toEqual({
+    type: actions.UPDATE,
+    payload: new Promise(() => {}),
   });
 });
 
 test('archive action creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Invoices.actions.archive(123)).toEqual({
-    type: Invoices.actions.ARCHIVE,
-    payload: Api.delete('/invoices/123'),
+  expect(actions.archive(123)).toEqual({
+    type: actions.ARCHIVE,
+    payload: new Promise(() => {}),
   });
 });

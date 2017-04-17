@@ -1,39 +1,22 @@
 import { createSelector } from 'reselect';
-import { filterEntitiesByOrgId } from '../../filters';
+import selectByFilters from './filters';
 
-const rootSelector = (state) => state.entities.get('invoices');
+export const rootSelector = state => state.getIn(['entities','invoices']);
 
-const fetchingSelector = (state) => state.entities.getIn(['invoices','fetching']);
+export const fetchingSelector = state => state.getIn(['entities','invoices','fetching']);
 
-const querySelector = (state) => state.entities.getIn(['jobs','query']);
+export const filtersSelector = state => state.getIn(['entities','invoices','filters']);
 
-const filtersSelector = (state) => state.entities.getIn(['invoices','filters']);
+export const resultSelector = state => state.getIn(['entities','invoices','result']);
 
-const resultSelector = (state) => state.entities.getIn(['invoices','result']);
+export const invoicesSelector = state => state.getIn(['entities','invoices','entities','invoices']);
 
-const invoicesSelector = createSelector(
-  rootSelector,
-  (invoices) => invoices.getIn(['entities','invoices'])
-);
-
-const invoiceByIdSelector = createSelector(
+export const invoiceByIdSelector = createSelector(
   [invoicesSelector, resultSelector],
-  (invoices, result) => invoices.get(result.first().toString())
+  (invoices, result) => invoices.get(result.toString())
 );
 
-const invoicesByFiltersSelector = createSelector(
+export const invoicesByFiltersSelector = createSelector(
   [invoicesSelector, filtersSelector],
-  (invoices, filters) => invoices
-    .filter(invoice => filterEntitiesByOrgId(invoice, filters.get('organisationId')))
+  (invoices, filters) => selectByFilters(invoices, filters)
 );
-
-export {
-  rootSelector,
-  fetchingSelector,
-  querySelector,
-  filtersSelector,
-  resultSelector,
-  invoicesSelector,
-  invoiceByIdSelector,
-  invoicesByFiltersSelector,
-};

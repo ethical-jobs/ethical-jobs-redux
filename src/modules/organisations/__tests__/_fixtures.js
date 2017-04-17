@@ -1,4 +1,6 @@
-export const response = {
+import { ApiError } from 'ethical-jobs-sdk';
+
+export const collection = {
     "data": {
         "entities": {
             "organisations": {
@@ -79,7 +81,31 @@ export const response = {
     }
 };
 
-export const error = {
+
+export const single = {
+    "data": {
+        "entities": {
+            "organisations": {
+                "5": {
+                    "id": 5,
+                    "uid": "twsjobs",
+                    "name": "Total Workforce Services",
+                    "phone": "1300 731 148",
+                    "credit_balance": 0,
+                    "created_at": 1472042329000,
+                    "updated_at": 1472042336000,
+                    "owner": {
+                        "username": "twsjobs",
+                        "email": "jobs@totalworkforceservices.com.au"
+                    }
+                }
+            }
+        },
+        "result": 5,
+    }
+};
+
+export const error = new ApiError('There was some kind of error', {
   message: 'There was some kind of error',
   statusCode: 500,
-};
+});

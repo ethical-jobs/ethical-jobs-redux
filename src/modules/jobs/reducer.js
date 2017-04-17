@@ -7,16 +7,7 @@ import { REQUEST, SUCCESS, FAILURE } from '../../actionTypes';
 export const initialState = Immutable.fromJS({
   fetching: false,
   error: false,
-  filters: {
-    q: '',
-    expired: false,
-    status: null,
-    organisationId: null,
-    categories: null,
-    locations: null,
-    sectors: null,
-    workTypes: null,
-  },
+  filters: Immutable.Map(),
   result: Immutable.Set(),
   entities: Immutable.Map(),
 });
@@ -60,7 +51,7 @@ export default function reducer(state = initialState, action = {}) {
     case SUCCESS(JobActions.ATTACH):
     case SUCCESS(JobActions.DETACH):
     case SUCCESS(JobActions.SEARCH):
-      return Utils.mergeSuccess(state, action.payload.data);
+      return Utils.mergeSuccess(state, action.payload);
 
     case FAILURE(JobActions.FETCH_COLLECTION):
     case FAILURE(JobActions.FETCH_ENTITY):

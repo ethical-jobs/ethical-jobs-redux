@@ -1,90 +1,112 @@
 import Immutable from 'immutable';
-import { createStateTree } from 'testing/utils';
-import { SUCCESS } from 'actionTypes';
-import { response } from './_fixtures';
-import { APPROVED, PENDING, EXPIRED } from 'modules/jobs/statuses';
+import { fromJS } from 'utils';
+import { APPROVED, PENDING, DRAFT } from 'modules/jobs/statuses';
+import * as Assert from 'testing/assertions';
 import Jobs from 'modules/jobs';
 
-const { selectors, actions } = Jobs;
-
-const state = createStateTree('jobs', Jobs.reducer, {
-  type: SUCCESS(actions.FETCH_COLLECTION),
-  payload: response,
-});
+const { selectors } = Jobs;
 
 test('rootSelector returns correct state slice ', () => {
-  const expected = state.getIn(['entities','jobs']);
   expect(
-    Immutable.is(expected, selectors.rootSelector(state))
+    Assert.rootSelector('jobs', selectors.rootSelector)
   ).toBe(true);
 });
 
-test('fetching selector returns correct state slice', () => {
-  expect(selectors.fetchingSelector(state)).toBe(false);
+test('fetchingSelector returns correct state slice', () => {
+  expect(
+    Assert.fetchingSelector('jobs', selectors.fetchingSelector)
+  ).toBe(true);
 });
 
 test('filtersSelector returns correct state slice', () => {
-  const expected = state.getIn(['entities','jobs','filters']);
-  const actual = selectors.filtersSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.filtersSelector('jobs', selectors.filtersSelector)
+  ).toBe(true);
 });
 
 test('resultSelector selector returns correct state slice', () => {
-  const expected = state.getIn(['entities','jobs','result']);
-  const actual = selectors.resultSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.resultSelector('jobs', selectors.resultSelector)
+  ).toBe(true);
 });
 
 test('jobsSelector selector returns correct state slice', () => {
-  const expected = state.getIn(['entities','jobs','entities','jobs']);
-  const actual = selectors.jobsSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.entitiesSelector('jobs', 'jobs', selectors.jobsSelector)
+  ).toBe(true);
 });
 
-// We have this trick base problem of result being always a Sequence
-// I propose we change this so its either a sequence OR an integer.
-// Let's go!
-//           |
-//           |
-//           V
+/*
+|--------------------------------------------------------------------------
+| Single job selector
+|--------------------------------------------------------------------------
+*/
+
 test('jobByIdSelector selector returns correct state slice', () => {
-  const actual = selectors.jobByIdSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  const state = fromJS({
+    entities: {
+      jobs: {
+        entities: {
+          jobs: {
+            55425: 'foo-bar-bam',
+          },
+        },
+        result: 55425,
+      },
+    }
+  });
+  const result = selectors.jobByIdSelector(state);
+  expect(Immutable.is('foo-bar-bam', result)).toBe(true);
 });
 
-// test('jobsByFiltersSelector selector returns correct state slice', () => {
-//   const expected = Immutable.fromJS({
-//     2: { organisation_id: 33, status: PENDING, expired: false, title: 'Bar Two' },
-//   });
-//   const actual = selectors.jobsByFiltersSelector(state);
-//   expect(Immutable.is(expected, actual)).toBe(true);
-// });
+/*
+|--------------------------------------------------------------------------
+| Filters
+|--------------------------------------------------------------------------
+*/
 
-// test('jobsByFiltersSelector selector returns correct state with complex filters', () => {
-//   const complexState = Immutable.fromJS({
-//     entities: {
-//       jobs: {
-//         filters: {
-//           organisationId: 10,
-//           jobType: APPROVED,
-//         },
-//         entities: Immutable.fromJS({
-//           jobs: {
-//             1: { organisation_id: 10, status: APPROVED, expired: false, title: 'Job One' },
-//             2: { organisation_id: 15, status: PENDING, expired: true, title: 'Job Two' },
-//             3: { organisation_id: 10, status: APPROVED, expired: true, title: 'Job Three' },
-//             4: { organisation_id: 10, status: APPROVED, expired: false, title: 'Job Four' },
-//             5: { organisation_id: 15, status: PENDING, expired: false, title: 'Job Five' },
-//             6: { organisation_id: 14, status: APPROVED, expired: false, title: 'Job Six' },
-//           }
-//         }),
-//       }
-//     },
-//   });
-//   const expected = Immutable.fromJS({
-//     1: { organisation_id: 10, status: APPROVED, expired: false, title: 'Job One' },
-//     4: { organisation_id: 10, status: APPROVED, expired: false, title: 'Job Four' },
-//   });
-//   const actual = selectors.jobsByFiltersSelector(complexState);
-//   expect(Immutable.is(expected, actual)).toBe(true);
-// });
+test('jobsByFiltersSelector can filter by ... filters', () => {
+  const jobs = fromJS({
+    51: {
+      id: 51,
+      organisation_id: 15,
+      status: PENDING,
+      expired: true,
+      categories: [10,20,30],
+      locations: [10,20,30],
+      workTypes: [10,20,30],
+      sectors: [20,30,13,33],
+    },
+    52: {
+      id: 52,
+      organisation_id: 8,
+      status: APPROVED,
+      expired: true,
+      categories: [10,20,30],
+      locations: [10,20,30],
+      workTypes: [10,20,30],
+      sectors: [20,30,13],
+    },
+    53: {
+      id: 53,
+      organisation_id: 15,
+      status: PENDING,
+      expired: true,
+      categories: [10,20,30],
+      locations: [10,20,30],
+      workTypes: [10,20,30],
+      sectors: [20,30,13],
+    },
+  });
+  const filters = fromJS({
+    organisationId: 15,
+    status: PENDING,
+    expired: true,
+    categories: [20,30],
+    locations: [20,30],
+    sectors: [20,30],
+    workTypes: [20,30,13],
+  });
+  const result = selectors.jobsByFiltersSelector.resultFunc(jobs, filters);
+  expect(Immutable.is(result.keySeq(), Immutable.Seq(['51','53']))).toBe(true);
+});

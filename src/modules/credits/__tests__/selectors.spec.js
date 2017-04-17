@@ -1,41 +1,28 @@
 import Immutable from 'immutable';
-import { response, error } from 'modules/app/__tests__/_fixtures';
+import * as Assert from 'testing/assertions';
 import Credits from 'modules/credits';
 
-const state = {
-  entities: Immutable.fromJS({
-    credits: {
-      fetching: true,
-      error: false,
-      creditPacks: [
-        {
-          id: 1,
-          price: 110,
-          service_type: 'REGULAR',
-        },
-        {
-          id: 2,
-          price: 130,
-          service_type: 'MANAGED',
-        },
-      ],
-    }
-  }),
-};
+const { selectors } = Credits;
 
 test('rootSelector returns correct state slice ', () => {
-  const expected = state.entities.get('credits');
-  const actual = Credits.selectors.rootSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.rootSelector('credits', selectors.rootSelector)
+  ).toBe(true);
 });
 
-test('fetching selector returns correct state slice', () => {
-  expect(Credits.selectors.fetchingSelector(state)).toBe(true);
+test('fetchingSelector returns correct state slice', () => {
+  expect(
+    Assert.fetchingSelector('credits', selectors.fetchingSelector)
+  ).toBe(true);
 });
 
-test('creditPacks selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['credits','creditPacks']);
-  const actual = Credits.selectors.creditPacksSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+test('creditPacks returns correct state slice', () => {
+  const state = Immutable.fromJS({
+    entities: {
+      credits: {
+        creditPacks: 'foo-bar-bam',
+      },
+    }
+  });
+  return expect(Immutable.is('foo-bar-bam', selectors.creditPacksSelector(state))).toBe(true);
 });
-

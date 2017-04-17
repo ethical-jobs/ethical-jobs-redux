@@ -1,28 +1,22 @@
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 
-const rootSelector = (state) => state.auth;
+export const rootSelector = state => state.getIn(['entities','auth']);
 
-const fetchingSelector = (state) => state.auth.get('fetching');
+export const fetchingSelector = state => state.getIn(['entities','auth','fetching']);
 
-const resultSelector = (state) => state.auth.get('result');
+export const resultSelector = state => state.getIn(['entities','auth','result']);
 
-const userSelector = createSelector(
-  [rootSelector, resultSelector],
-  (auth, result) => auth.getIn(['entities','users'], Immutable.Map())
-    .get(result.first().toString(), Immutable.Map())
+export const usersSelector = state => state.getIn(['entities','auth','entities','users']);
+
+export const orgsSelector = state => state.getIn(['entities','auth','entities','organisations']);
+
+export const authedUserSelector = createSelector(
+  [usersSelector, resultSelector],
+  (users, result) => users.get(result.toString())
 );
 
-const organisationSelector = createSelector(
-  [rootSelector, userSelector],
-  (auth, user) => auth.getIn(['entities','organisations'], Immutable.Map())
-    .get(user.get('organisation_id', '').toString(), Immutable.Map())
+export const authedOrganisationSelector = createSelector(
+  [orgsSelector, authedUserSelector],
+  (orgs, user) => orgs.get(user.get('organisation_id', '').toString())
 );
-
-export {
-  rootSelector,
-  fetchingSelector,
-  resultSelector,
-  userSelector,
-  organisationSelector,
-};

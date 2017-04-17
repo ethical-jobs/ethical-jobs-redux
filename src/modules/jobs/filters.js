@@ -31,7 +31,10 @@ export function byStatus(job, status) {
  */
 
 export function byExpiration(job, expiration) {
-  return !expiration ? true : job.get('expired') == expiration;
+  if (typeof expiration == null || typeof expiration == undefined) {
+    return true;
+  }
+  return job.get('expired') === expiration;
 }
 
 /**
@@ -44,7 +47,7 @@ export function byExpiration(job, expiration) {
  */
 
 export function byTaxonomy(job, taxonomy, terms = []) {
-  return !terms.length ? true : job.get(taxonomy).includes(terms);
+  return !terms.length ? true : job.get(taxonomy).isSubset(terms);
 }
 
 /**

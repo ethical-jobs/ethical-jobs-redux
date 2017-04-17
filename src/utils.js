@@ -94,13 +94,13 @@ export function mergeRequest(state) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function mergeSuccess(state, data) {
+export function mergeSuccess(state, payload) {
   return state
     .set('fetching', false)
     .set('error', false)
-    .update('entities', entities => entities.mergeDeep(data.entities))
+    .update('entities', entities => entities.mergeDeep(payload.data.entities))
     .update('result', result => {
-      return Array.isArray(data.result) ? result.union(data.result) : result.add(data.result);
+      return Array.isArray(payload.data.result) ? result.union(payload.data.result) : payload.data.result;
     });
 }
 
@@ -110,8 +110,8 @@ export function mergeSuccess(state, data) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function mergeFailure(state, error) {
-  const value = (error instanceof ApiError) ? error.error : error;
+export function mergeFailure(state, payload) {
+  const value = (payload instanceof ApiError) ? payload.error : payload;
   return state
     .set('error', Immutable.fromJS(value))
     .set('fetching', false);

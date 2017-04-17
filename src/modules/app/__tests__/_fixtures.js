@@ -1,3 +1,5 @@
+import { ApiError } from 'ethical-jobs-sdk';
+
 export const response = {
   data: {
     taxonomimes: {
@@ -62,7 +64,7 @@ export const response = {
   },
 };
 
-export const error = {
+export const error = new ApiError('There was some kind of error', {
   message: 'There was some kind of error',
   statusCode: 500,
-};
+});

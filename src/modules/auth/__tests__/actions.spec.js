@@ -1,42 +1,49 @@
-import Api from 'api';
+import sinon from 'sinon';
 import Auth from 'modules/auth';
 
+const params = { foo: 'bar', bar: 'foo' };
+
+const { actions } = Auth;
+
+beforeEach(() => {
+  sinon.stub(window, 'fetch').resolves({ ok: true });
+});
+
+afterEach(() => {
+  window.fetch.restore();
+});
+
 test('login creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Auth.actions.login(params)).toEqual({
-    type: Auth.actions.LOGIN,
-    payload: Api.auth.login(params),
+  expect(actions.login(params)).toEqual({
+    type: actions.LOGIN,
+    payload: new Promise(() => {}),
   });
 });
 
 test('logout creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Auth.actions.logout(params)).toEqual({
-    type: Auth.actions.LOGOUT,
-    payload: Api.auth.logout(params),
+  expect(actions.logout(params)).toEqual({
+    type: actions.LOGOUT,
+    payload: new Promise(() => {}),
   });
 });
 
 test('load action creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Auth.actions.load(params)).toEqual({
-    type: Auth.actions.LOAD,
-    payload: Api.auth.load(params),
+  expect(actions.load(params)).toEqual({
+    type: actions.LOAD,
+    payload: new Promise(() => {}),
   });
 });
 
 test('recover action creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Auth.actions.recover(params)).toEqual({
-    type: Auth.actions.RECOVER,
-    payload: Api.auth.recoverPassword(params),
+  expect(actions.recover(params)).toEqual({
+    type: actions.RECOVER,
+    payload: new Promise(() => {}),
   });
 });
 
 test('reset action creates correct action', () => {
-  const params = { foo: 'bar', bar: 'foo' };
-  expect(Auth.actions.reset(params)).toEqual({
-    type: Auth.actions.RESET,
-    payload: Api.auth.resetPassword(params),
+  expect(actions.reset(params)).toEqual({
+    type: actions.RESET,
+    payload: new Promise(() => {}),
   });
 });

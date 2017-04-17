@@ -1,11 +1,5 @@
-const rootSelector = (state) => state.entities.get('credits');
+export const rootSelector = (state) => state.getIn(['entities','credits']);
 
-const fetchingSelector = (state) => state.entities.getIn(['credits','fetching']);
+export const fetchingSelector = (state) => state.getIn(['entities','credits','fetching']);
 
-const creditPacksSelector = (state) => state.entities.getIn(['credits','creditPacks']);
-
-export {
-  rootSelector,
-  fetchingSelector,
-  creditPacksSelector,
-};
+export const creditPacksSelector = (state) => state.getIn(['entities','credits','creditPacks']);

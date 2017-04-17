@@ -1,31 +1,18 @@
 import { createSelector } from 'reselect';
 
-const rootSelector = (state) => state.getIn(['entities','organisations']);
+export const rootSelector = (state) => state.getIn(['entities','organisations']);
 
-const fetchingSelector = (state) => state.getIn(['entities','organisations','fetching']);
+export const fetchingSelector = (state) => state.getIn(['entities','organisations','fetching']);
 
-const querySelector = (state) => state.getIn(['entities','organisations','query']);
+export const querySelector = (state) => state.getIn(['entities','organisations','query']);
 
-const filtersSelector = (state) => state.getIn(['entities','organisations','filters']);
+export const filtersSelector = (state) => state.getIn(['entities','organisations','filters']);
 
-const resultSelector = (state) => state.getIn(['entities','organisations','result']);
+export const resultSelector = (state) => state.getIn(['entities','organisations','result']);
 
-const organisationsSelector = createSelector(
-  rootSelector,
-  (root) => root.getIn(['entities','organisations'])
-);
+export const organisationsSelector = (state) => state.getIn(['entities','organisations','entities','organisations']);
 
-const organisationByIdSelector = createSelector(
+export const organisationByIdSelector = createSelector(
   [organisationsSelector, resultSelector],
-  (organisations, result) => organisations.get(result.first().toString())
+  (organisations, result) => organisations.get(result.toString())
 );
-
-export {
-  rootSelector,
-  fetchingSelector,
-  querySelector,
-  filtersSelector,
-  resultSelector,
-  organisationsSelector,
-  organisationByIdSelector,
-};

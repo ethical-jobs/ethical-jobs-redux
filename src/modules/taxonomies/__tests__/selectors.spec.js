@@ -1,59 +1,31 @@
 import Immutable from 'immutable';
-import { response, error } from 'app/__tests__/_fixtures';
-import {
-  rootSelector,
-  fetchingSelector,
-  taxonomiesSelector,
-} from 'taxonomies/selectors';
+import * as Assert from 'testing/assertions';
+import Taxonomies from 'modules/taxonomies';
 
-const state = {
-  entities: Immutable.fromJS({
-    taxonomies: {
-      fetching: true,
-      error: false,
+const { selectors } = Taxonomies;
+
+
+test('rootSelector returns correct state slice ', () => {
+  expect(
+    Assert.rootSelector('taxonomies', selectors.rootSelector)
+  ).toBe(true);
+});
+
+test('fetchingSelector returns correct state slice', () => {
+  expect(
+    Assert.fetchingSelector('taxonomies', selectors.fetchingSelector)
+  ).toBe(true);
+});
+
+test('taxonomiesSelector returns correct state slice', () => {
+  const state = Immutable.fromJS({
+    entities: {
       taxonomies: {
-        categories: [
-          {
-            id: 1,
-            title: 'Administration',
-            slug: 'administration'
-          },
-          {
-            id: 2,
-            title: 'Advocacy and Campaigns',
-            slug: 'advocacy'
-          },
-        ],
-        locations: [
-          {
-            id: 1,
-            title: 'Melbourne',
-            slug: 'VIC'
-          },
-          {
-            id: 2,
-            title: 'Regional VIC',
-            slug: 'REGVIC'
-          },
-        ],
+        taxonomies: 'foo-bar-bam',
       },
     }
-  }),
-};
-
-test('rootSelector returns correct state slice', () => {
-  const expected = state.entities.get('taxonomies');
-  const actual = rootSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  });
+  return expect(Immutable.is('foo-bar-bam', selectors.taxonomiesSelector(state))).toBe(true);
 });
 
-test('fetching selector returns correct state slice', () => {
-  expect(fetchingSelector(state)).toBe(true);
-});
-
-test('taxonomies selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['taxonomies','taxonomies']);
-  const actual = taxonomiesSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
-});
 

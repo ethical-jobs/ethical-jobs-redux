@@ -1,8 +1,12 @@
 import Immutable from 'immutable';
-import { response, error } from './_fixtures';
-import Auth from 'modules/auth';
+import { REQUEST, SUCCESS, FAILURE } from 'actionTypes';
 import { initialState } from 'modules/auth/reducer';
-import { REQUEST, SUCCESS, FAILURE } from 'utils';
+import * as Fixtures from './_fixtures';
+import * as Assert from 'testing/assertions';
+import Auth from 'modules/auth';
+
+const Reducer = Auth.reducer;
+const Actions = Auth.actions;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,134 +14,58 @@ import { REQUEST, SUCCESS, FAILURE } from 'utils';
 |--------------------------------------------------------------------------
 */
 
-test('should return correct initial state ', () => {
-  const expected = Immutable.fromJS({
+test('should return correct initial state', () => {
+  const expectedState = Immutable.fromJS({
     fetching: false,
     error: false,
     result: Immutable.Set(),
-    entities: {
-      users: Immutable.Map(),
-      organisations: Immutable.Map(),
-    },
+    entities: Immutable.Map(),
   });
-  const actual = Auth.reducer(undefined);
-  expect(Immutable.is(actual, expected)).toBe(true);
+  expect(Assert.initialState(Reducer, expectedState)).toBe(true);
 });
 
 /*
 |--------------------------------------------------------------------------
-| REQUEST actions
+| Async action handling
 |--------------------------------------------------------------------------
 */
 
-const expectedRequestState = initialState
-  .set('fetching', true)
-  .set('error', false);
-
-test('should handle LOGIN_REQUEST action correctly', () => {
-  const action = {
-    type: REQUEST(Auth.actions.LOGIN),
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedRequestState)).toBe(true);
+test('should handle REQUEST actions correctly', () => {
+  const actionTypes = [
+    REQUEST(Actions.LOGIN),
+    REQUEST(Actions.LOGOUT),
+    REQUEST(Actions.LOAD),
+  ];
+  expect(
+    Assert.requestState(Reducer, actionTypes, initialState)
+  ).toBe(true);
 });
 
-test('should handle LOGOUT_REQUEST action correctly', () => {
-  const action = {
-    type: REQUEST(Auth.actions.LOGOUT),
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedRequestState)).toBe(true);
-});
-
-test('should handle CREATE_REQUEST action correctly', () => {
-  const action = {
-    type: REQUEST(Auth.actions.LOAD),
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedRequestState)).toBe(true);
-});
-
-/*
-|--------------------------------------------------------------------------
-| SUCCESS actions
-|--------------------------------------------------------------------------
-*/
-
-const expectedSuccessState = initialState
-  .set('fetching', false)
-  .set('error', false)
-  .update('entities', entities => entities.mergeDeep(response.data.entities))
-  .update('result', result => result.union(response.data.result));
-
-test('should handle LOGIN_SUCCESS action correctly', () => {
-  const action = {
-    type: SUCCESS(Auth.actions.LOGIN),
-    payload: response,
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedSuccessState)).toBe(true);
-});
-
-test('should handle LOAD_SUCCESS action correctly', () => {
-  const action = {
-    type: SUCCESS(Auth.actions.LOAD),
-    payload: response,
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedSuccessState)).toBe(true);
+test('should handle SUCCESS actions correctly', () => {
+  const actionTypes = [
+    SUCCESS(Actions.LOGIN),
+    SUCCESS(Actions.LOAD),
+  ];
+  expect(
+    Assert.successState(Reducer, actionTypes, initialState, Fixtures.single)
+  ).toBe(true);
 });
 
 test('should handle LOGOUT_SUCCESS action correctly', () => {
   const action = {
-    type: SUCCESS(Auth.actions.LOGOUT),
-    payload: response,
+    type: SUCCESS(Actions.LOGOUT),
   };
-  const expected = initialState
-    .set('fetching', false)
-    .set('error', false)
-    .update('entities', entities => entities.clear())
-    .update('result', result => result.clear());
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expected)).toBe(true);
+  const actual = Reducer(undefined, action);
+  expect(Immutable.is(actual, initialState)).toBe(true);
 });
 
-/*
-|--------------------------------------------------------------------------
-| FAILURE actions
-|--------------------------------------------------------------------------
-*/
-
-const expectedFailureState = initialState
-  .set('fetching', false)
-  .set('error', Immutable.fromJS(error));
-
-test('should handle LOGIN_FAILURE action correctly', () => {
-  const action = {
-    type: FAILURE(Auth.actions.LOGIN),
-    payload: error,
-    error: true,
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedFailureState)).toBe(true);
-});
-
-test('should handle LOGOUT_FAILURE action correctly', () => {
-  const action = {
-    type: FAILURE(Auth.actions.LOGOUT),
-    payload: error,
-    error: true,
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedFailureState)).toBe(true);
-});
-
-test('should handle LOAD_FAILURE action correctly', () => {
-  const action = {
-    type: FAILURE(Auth.actions.LOAD),
-    payload: error,
-    error: true,
-  };
-  const actual = Auth.reducer(initialState, action);
-  expect(Immutable.is(actual, expectedFailureState)).toBe(true);
+test('should handle FAILURE actions correctly', () => {
+  const actionTypes = [
+    FAILURE(Actions.LOGIN),
+    FAILURE(Actions.LOGOUT),
+    FAILURE(Actions.LOAD),
+  ];
+  expect(
+    Assert.failureState(Reducer, actionTypes, initialState, Fixtures.error)
+  ).toBe(true);
 });

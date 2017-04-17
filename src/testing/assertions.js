@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import { fromJS } from 'utils';
 import {
   mergeSearchRequest,
   mergeRequest,
@@ -62,15 +63,14 @@ export function searchRequestState(reducer, actionType, initialState) {
  */
 
 export function requestState(reducer, actionTypes = [], initialState) {
-  let isValid = true;
+  let passes = true;
   const expected = mergeRequest(initialState);
   actionTypes.forEach(type => {
-    const action = { type };
-    if (Immutable.is(reducer(undefined, action), expected) === false) {
-      isValid = false;
+    if (false === Immutable.is(reducer(undefined, { type }), expected)) {
+      passes = false;
     }
   });
-  return isValid;
+  return passes;
 }
 
 /**
@@ -80,15 +80,15 @@ export function requestState(reducer, actionTypes = [], initialState) {
  */
 
 export function successState(reducer, actionTypes = [], initialState, fixture) {
-  let isValid = true;
+  let passes = true;
   const expected = mergeSuccess(initialState, fixture);
   actionTypes.forEach(type => {
     const action = { type, payload: fixture };
-    if (Immutable.is(reducer(undefined, action), expected) === false) {
-      isValid = false;
+    if (false === Immutable.is(reducer(undefined, action), expected)) {
+      passes = false;
     }
   });
-  return isValid;
+  return passes;
 }
 
 /**
@@ -98,13 +98,98 @@ export function successState(reducer, actionTypes = [], initialState, fixture) {
  */
 
 export function failureState(reducer, actionTypes = [], initialState, fixture) {
-  let isValid = true;
+  let passes = true;
   const expected = mergeFailure(initialState, fixture);
   actionTypes.forEach(type => {
     const action = { type, payload: fixture, error: true };
-    if (Immutable.is(reducer(undefined, action), expected) === false) {
-      isValid = false;
+    if (false === Immutable.is(reducer(undefined, action), expected)) {
+      passes = false;
     }
   });
-  return isValid;
+  return passes;
+}
+
+/**
+ * Asserts a modules rootSelector
+ *
+ * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ */
+
+export function rootSelector(key, selector) {
+  const state = fromJS({
+    entities: {
+      [key]: 'foo-bar-bam',
+    }
+  });
+  return Immutable.is('foo-bar-bam', selector(state));
+}
+
+/**
+ * Asserts a modules fetchingSelector
+ *
+ * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ */
+
+export function fetchingSelector(key, selector) {
+  const state = fromJS({
+    entities: {
+      [key]: {
+        fetching: 'foo-bar-bam',
+      },
+    }
+  });
+  return Immutable.is('foo-bar-bam', selector(state));
+}
+
+/**
+ * Asserts a modules filtersSelector
+ *
+ * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ */
+
+export function filtersSelector(key, selector) {
+  const state = fromJS({
+    entities: {
+      [key]: {
+        filters: 'foo-bar-bam',
+      },
+    }
+  });
+  return Immutable.is('foo-bar-bam', selector(state));
+}
+
+/**
+ * Asserts a modules resultSelector
+ *
+ * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ */
+
+export function resultSelector(key, selector) {
+  const state = fromJS({
+    entities: {
+      [key]: {
+        result: 'foo-bar-bam',
+      },
+    }
+  });
+  return Immutable.is('foo-bar-bam', selector(state));
+}
+
+/**
+ * Asserts a modules entities selector
+ *
+ * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ */
+
+export function entitiesSelector(moduleKey, entitiesKey, selector) {
+  const state = fromJS({
+    entities: {
+      [moduleKey]: {
+        entities: {
+          [entitiesKey]: 'foo-bar-bam',
+        },
+      },
+    }
+  });
+  return Immutable.is('foo-bar-bam', selector(state));
 }

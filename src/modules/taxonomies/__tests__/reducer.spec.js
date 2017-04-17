@@ -1,7 +1,12 @@
 import Immutable from 'immutable';
-import * as AppActions from 'app/actions';
-import taxonomiesReducer, { initialState } from 'taxonomies';
-import { response, error } from 'app/__tests__/_fixtures';
+import App from 'modules/app';
+import * as Assert from 'testing/assertions';
+import { REQUEST, SUCCESS, FAILURE } from 'actionTypes';
+import Taxonomies from 'modules/taxonomies';
+import { initialState } from 'modules/taxonomies/reducer';
+import * as Fixtures from 'modules/app/__tests__/_fixtures';
+
+const Reducer = Taxonomies.reducer;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,12 +15,12 @@ import { response, error } from 'app/__tests__/_fixtures';
 */
 
 test('should return correct initial state', () => {
-  const expected = Immutable.fromJS({
+  const expectedState = Immutable.fromJS({
     fetching: false,
     error: false,
-    taxonomies: {},
+    taxonomies: Immutable.Map(),
   });
-  expect(Immutable.is(taxonomiesReducer(undefined, {}), expected)).toBe(true);
+  expect(Assert.initialState(Reducer, expectedState)).toBe(true);
 });
 
 /*
@@ -24,40 +29,35 @@ test('should return correct initial state', () => {
 |--------------------------------------------------------------------------
 */
 
-test('should handle FETCH_APP_DATA_REQUEST action correctly', () => {
-  const action = {
-    type: `${AppActions.FETCH_APP_DATA}_REQUEST`,
-    payload: response,
-  };
-  const expected = initialState
-    .set('fetching', true)
-    .set('error', false);
-  const actual = taxonomiesReducer(initialState, action);
-  expect(Immutable.is(expected, actual)).toBe(true);
+
+test('should handle REQUEST actions correctly', () => {
+  const actionTypes = [
+    REQUEST(App.actions.FETCH_APP_DATA),
+  ];
+  expect(
+    Assert.requestState(Reducer, actionTypes, initialState)
+  ).toBe(true);
 });
 
-test('should handle FETCH_APP_DATA_SUCCESS action correctly', () => {
+test('should handle SUCCESS action correctly', () => {
   const action = {
-    type: `${AppActions.FETCH_APP_DATA}_SUCCESS`,
-    payload: response,
+    type: SUCCESS(App.actions.FETCH_APP_DATA),
+    payload: Fixtures.response,
   };
-  const expected = initialState
+  const expectedState = initialState
     .set('fetching', false)
     .set('error', false)
-    .set('taxonomies', response.data.taxonomies);
-  const actual = taxonomiesReducer(initialState, action);
-  expect(Immutable.is(expected, actual)).toBe(true);
+    .set('taxonomies', Immutable.fromJS(Fixtures.response.data.taxonomies));
+  const actual = Reducer(undefined, action);
+  expect(Immutable.is(actual, expectedState)).toBe(true);
 });
 
-test('should handle FETCH_APP_DATA_FAILURE action correctly', () => {
-  const action = {
-    type: `${AppActions.FETCH_APP_DATA}_FAILURE`,
-    payload: error,
-  };
-  const expected = initialState
-    .set('fetching', false)
-    .set('error', Immutable.fromJS(error));
-  const actual = taxonomiesReducer(initialState, action);
-  expect(Immutable.is(expected, actual)).toBe(true);
+test('should handle FAILURE actions correctly', () => {
+  const actionTypes = [
+    FAILURE(App.actions.FETCH_APP_DATA),
+  ];
+  expect(
+    Assert.failureState(Reducer, actionTypes, initialState, Fixtures.error)
+  ).toBe(true);
 });
 

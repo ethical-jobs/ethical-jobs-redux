@@ -1,71 +1,74 @@
 import Immutable from 'immutable';
-import { response, error } from './_fixtures';
+import { fromJS } from 'utils';
+import { APPROVED, PENDING, DRAFT } from 'modules/jobs/statuses';
+import * as Assert from 'testing/assertions';
 import Auth from 'modules/auth';
 
-const state = {
-  auth: Immutable.fromJS({
-    fetching: true,
-    error: false,
-    result: [10],
-    entities: {
-      users: {
-        10: {
-          "id": 10,
-          "organisation_id": 8,
-          "first_name": "Andrew",
-          "last_name": "McLagan",
-        }
-      },
-      organisations: {
-        8: {
-          "id": 8,
-          "owner_id": 10,
-          "uid": "EthicalJobs",
-          "name": "EthicalJobs.com.au",
-        },
-      }
+const { selectors } = Auth;
+
+test('rootSelector returns correct state slice ', () => {
+  expect(
+    Assert.rootSelector('auth', selectors.rootSelector)
+  ).toBe(true);
+});
+
+test('fetchingSelector returns correct state slice', () => {
+  expect(
+    Assert.fetchingSelector('auth', selectors.fetchingSelector)
+  ).toBe(true);
+});
+
+test('resultSelector returns correct state slice', () => {
+  expect(
+    Assert.resultSelector('auth', selectors.resultSelector)
+  ).toBe(true);
+});
+
+test('usersSelector returns correct state slice', () => {
+  expect(
+    Assert.entitiesSelector('auth', 'users', selectors.usersSelector)
+  ).toBe(true);
+});
+
+test('orgsSelector returns correct state slice', () => {
+  expect(
+    Assert.entitiesSelector('auth', 'organisations', selectors.orgsSelector)
+  ).toBe(true);
+});
+
+test('authedUserSelector returns correct state slice', () => {
+  const users = fromJS({
+    15: {
+      id: 15,
+      organisation_id: 20,
+      first_name: 'Andrew',
     },
-  }),
-};
-
-test('rootSelector returns correct state slice', () => {
-  const expected = state.auth;
-  const actual = Auth.selectors.rootSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+    20: {
+      id: 20,
+      organisation_id: 15,
+      first_name: 'Bob',
+    },
+  });
+  const result = selectors.authedUserSelector.resultFunc(users, 15);
+  expect(result.get('first_name')).toBe('Andrew');
 });
 
-test('fetching selector returns correct state slice ', () => {
-  expect(Auth.selectors.fetchingSelector(state)).toBe(true);
-});
-
-test('resultSelector selector returns correct state slice', () => {
-  const expected = state.auth.get('result');
-  const actual = Auth.selectors.resultSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
-});
-
-test('userSelector selector returns correct state slice', () => {
-  const expected = state.auth.getIn(['entities','users']).first();
-  const actual = Auth.selectors.userSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
-});
-
-test('userSelector selector returns a Map when state is empty', () => {
-  const state = { auth: Immutable.fromJS({ result: [10] }) };
-  const expected = Immutable.fromJS({});
-  const actual = Auth.selectors.userSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
-});
-
-test('organisationSelector selector returns correct state slice', () => {
-  const expected = state.auth.getIn(['entities','organisations']).first();
-  const actual = Auth.selectors.organisationSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
-});
-
-test('organisationSelector selector returns a Map when state is empty', () => {
-  const state = { auth: Immutable.fromJS({ result: [10] }) };
-  const expected = Immutable.fromJS({});
-  const actual = Auth.selectors.organisationSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+test('authedOrganisationSelector returns correct state slice', () => {
+  const organisations = fromJS({
+    15: {
+      id: 15,
+      title: 'Red Cross Australia',
+    },
+    20: {
+      id: 20,
+      title: 'Mission Australia',
+    },
+  });
+  const user = fromJS({
+    id: 15,
+    organisation_id: 20,
+    first_name: 'Andrew',
+  });
+  const result = selectors.authedOrganisationSelector.resultFunc(organisations, user);
+  expect(result.get('title')).toBe('Mission Australia');
 });

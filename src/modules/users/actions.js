@@ -15,13 +15,7 @@ export const UPDATE = createActionType('USERS/UPDATE');
 |--------------------------------------------------------------------------
 */
 
-export const update = (params) => ({
+export const update = (id, params) => ({
   type: UPDATE,
-  payload: {} // Api.updateUser(params),
+  payload: Api.put(`users/${id}`, params),
 });
-
-/*
-|--------------------------------------------------------------------------
-| Sync Actions
-|--------------------------------------------------------------------------
-*/

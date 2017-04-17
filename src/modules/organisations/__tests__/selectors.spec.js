@@ -1,74 +1,59 @@
 import Immutable from 'immutable';
-import {
-  rootSelector,
-  fetchingSelector,
-  querySelector,
-  filtersSelector,
-  resultSelector,
-  usersSelector,
-  organisationsSelector,
-  organisationByIdSelector,
-  organisationOwnerSelector,
-} from 'organisations/selectors';
+import { fromJS } from 'utils';
+import * as Assert from 'testing/assertions';
+import Organisations from 'modules/organisations';
 
-const state = {
-  entities: Immutable.fromJS({
-    organisations: {
-      fetching: true,
-      error: false,
-      filters: {},
-      result: Immutable.Set([1, 2, 3]),
-      entities: Immutable.fromJS({
-        organisations: {
-          1: { id: 1, name: "Bayside City Council", "credit_balance": 0 },
-          2: { id: 2, name: "City of Greater Geraldton ", "credit_balance": 0 },
-          3: { id: 3, name: "Karralika Programs", "credit_balance": 0 },
-        },
-        users: {
-          11: { id: 11, first_name: "Andrew McLagan" },
-          22: { id: 22, first_name: "Hugh Jass" },
-        },
-      }),
-    }
-  }),
-};
+const { selectors } = Organisations;
 
 test('rootSelector returns correct state slice ', () => {
-  const expected = state.entities.get('organisations');
-  const actual = rootSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.rootSelector('organisations', selectors.rootSelector)
+  ).toBe(true);
 });
 
-test('fetching selector returns correct state slice', () => {
-  expect(fetchingSelector(state)).toBe(true);
-});
-
-test('querySelector returns correct state slice', () => {
-  const expected = state.entities.getIn(['organisations','query']);
-  const actual = querySelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+test('fetchingSelector returns correct state slice', () => {
+  expect(
+    Assert.fetchingSelector('organisations', selectors.fetchingSelector)
+  ).toBe(true);
 });
 
 test('filtersSelector returns correct state slice', () => {
-  const expected = state.entities.getIn(['organisations','filters']);
-  const actual = filtersSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.filtersSelector('organisations', selectors.filtersSelector)
+  ).toBe(true);
 });
 
 test('resultSelector selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['organisations','result']);
-  const actual = resultSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.resultSelector('organisations', selectors.resultSelector)
+  ).toBe(true);
 });
 
 test('organisationsSelector selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['organisations','entities','organisations']);
-  const actual = organisationsSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.entitiesSelector('organisations', 'organisations', selectors.organisationsSelector)
+  ).toBe(true);
 });
 
+/*
+|--------------------------------------------------------------------------
+| Single organisation selector
+|--------------------------------------------------------------------------
+*/
+
 test('organisationByIdSelector selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['organisations','entities','organisations']).first();
-  const actual = organisationByIdSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  const state = fromJS({
+    entities: {
+      organisations: {
+        entities: {
+          organisations: {
+            55425: 'foo-bar-bam',
+          },
+        },
+        result: 55425,
+      },
+    }
+  });
+  const result = selectors.organisationByIdSelector(state);
+  expect(Immutable.is('foo-bar-bam', result)).toBe(true);
 });

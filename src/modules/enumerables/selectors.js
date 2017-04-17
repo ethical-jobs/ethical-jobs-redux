@@ -1,11 +1,5 @@
-const rootSelector = (state) => state.entities.get('enumerables');
+export const rootSelector = (state) => state.getIn(['entities','enumerables']);
 
-const fetchingSelector = (state) => state.entities.getIn(['enumerables','fetching']);
+export const fetchingSelector = (state) => state.getIn(['entities','enumerables','fetching']);
 
-const enumerablesSelector = (state) => state.entities.getIn(['enumerables','enumerables']);
-
-export {
-  rootSelector,
-  fetchingSelector,
-  enumerablesSelector,
-};
+export const enumerablesSelector = (state) => state.getIn(['entities','enumerables','enumerables']);

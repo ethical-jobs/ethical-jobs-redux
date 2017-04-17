@@ -1,8 +1,8 @@
 import Immutable from 'immutable';
 import { REQUEST, SUCCESS, FAILURE } from 'actionTypes';
-import * as Assert from 'testing/assertions';
-import { response, error } from './_fixtures';
 import { initialState } from 'modules/jobs/reducer';
+import * as Assert from 'testing/assertions';
+import * as Fixtures from './_fixtures';
 import Jobs from 'modules/jobs';
 
 const Reducer = Jobs.reducer;
@@ -18,16 +18,7 @@ test('should return correct initial state', () => {
   const expectedState = Immutable.fromJS({
     fetching: false,
     error: false,
-    filters: {
-      q: '',
-      expired: null,
-      status: null,
-      organisationId: null,
-      categories: null,
-      locations: null,
-      sectors: null,
-      workTypes: null,
-    },
+    filters: Immutable.Map(),
     result: Immutable.Set(),
     entities: Immutable.Map(),
   });
@@ -95,7 +86,7 @@ test('should handle SUCCESS actions correctly', () => {
     SUCCESS(Actions.DETACH),
   ];
   expect(
-    Assert.successState(Reducer, actionTypes, initialState, response)
+    Assert.successState(Reducer, actionTypes, initialState, Fixtures.collection)
   ).toBe(true);
 });
 
@@ -113,6 +104,6 @@ test('should handle FAILURE actions correctly', () => {
     FAILURE(Actions.DETACH),
   ];
   expect(
-    Assert.failureState(Reducer, actionTypes, initialState, error)
+    Assert.failureState(Reducer, actionTypes, initialState, Fixtures.error)
   ).toBe(true);
 });

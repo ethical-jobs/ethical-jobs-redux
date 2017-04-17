@@ -1,96 +1,88 @@
 import Immutable from 'immutable';
+import { fromJS } from 'utils';
+import * as Assert from 'testing/assertions';
 import Invoices from 'modules/invoices';
 
-const Selectors = Invoices.selectors;
+const { selectors } = Invoices;
 
-const state = {
-  entities: Immutable.fromJS({
-    invoices: {
-      fetching: true,
-      error: false,
-      filters: {
-        organisationId: 33,
-      },
-      result: Immutable.Set([1, 2, 3]),
-      entities: Immutable.fromJS({
-        invoices: {
-          1: { organisation_id: 100, uudi: '00-00-1' },
-          2: { organisation_id: 33, uudi: '00-00-2' },
-          3: { organisation_id: 33, uudi: '00-00-3' },
-        }
-      }),
-    }
-  }),
-};
-
-test('rootSelector returns correct state slice', () => {
-  const expected = state.entities.get('invoices');
-  const actual = Selectors.rootSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+test('rootSelector returns correct state slice ', () => {
+  expect(
+    Assert.rootSelector('invoices', selectors.rootSelector)
+  ).toBe(true);
 });
 
-test('fetching selector returns correct state slice ', () => {
-  expect(Selectors.fetchingSelector(state)).toBe(true);
-});
-
-test('querySelector returns correct state slice', () => {
-  const expected = state.entities.getIn(['invoices','query']);
-  const actual = Selectors.querySelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+test('fetchingSelector returns correct state slice', () => {
+  expect(
+    Assert.fetchingSelector('invoices', selectors.fetchingSelector)
+  ).toBe(true);
 });
 
 test('filtersSelector returns correct state slice', () => {
-  const expected = state.entities.getIn(['invoices','filters']);
-  const actual = Selectors.filtersSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.filtersSelector('invoices', selectors.filtersSelector)
+  ).toBe(true);
 });
 
 test('resultSelector selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['invoices','result']);
-  const actual = Selectors.resultSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.resultSelector('invoices', selectors.resultSelector)
+  ).toBe(true);
 });
 
 test('invoicesSelector selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['invoices','entities','invoices']);
-  const actual = Selectors.invoicesSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
+  expect(
+    Assert.entitiesSelector('invoices', 'invoices', selectors.invoicesSelector)
+  ).toBe(true);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Single invoice selector
+|--------------------------------------------------------------------------
+*/
 
 test('invoiceByIdSelector selector returns correct state slice', () => {
-  const expected = state.entities.getIn(['invoices','entities','invoices']).first();
-  const actual = Selectors.invoiceByIdSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
-});
-
-test('invoicesByFiltersSelector selector returns correct state slice', () => {
-  const expected = Immutable.fromJS({
-    2: { organisation_id: 33, uudi: '00-00-2' },
-    3: { organisation_id: 33, uudi: '00-00-3' },
-  });
-  const actual = Selectors.invoicesByFiltersSelector(state);
-  expect(Immutable.is(expected, actual)).toBe(true);
-});
-
-test('invoicesByFiltersSelector selector returns correct state with complex filters', () => {
-  const complexState = {
-    entities: Immutable.fromJS({
+  const state = fromJS({
+    entities: {
       invoices: {
-        filters: {
-          organisationId: 33,
-        },
-        entities: Immutable.fromJS({
+        entities: {
           invoices: {
-            1: { organisation_id: 33, uuid: '00-00-21' },
-            2: { organisation_id: 34, uuid: '00-00-22' },
-            3: { organisation_id: 107, uuid: '00-00-23' },
-          }
-        }),
-      }
-    }),
-  };
-  const expected = Immutable.fromJS({ 1: { organisation_id: 33, uuid: '00-00-21' } });
-  const actual = Selectors.invoicesByFiltersSelector(complexState);
-  expect(Immutable.is(expected, actual)).toBe(true);
+            55425: 'foo-bar-bam',
+          },
+        },
+        result: 55425,
+      },
+    }
+  });
+  const result = selectors.invoiceByIdSelector(state);
+  expect(Immutable.is('foo-bar-bam', result)).toBe(true);
 });
 
+
+/*
+|--------------------------------------------------------------------------
+| Filters
+|--------------------------------------------------------------------------
+*/
+
+test('invoicesByFiltersSelector can filter by ... filters', () => {
+  const invoices = fromJS({
+    51: {
+      id: 51,
+      organisation_id: 15,
+    },
+    52: {
+      id: 52,
+      organisation_id: 8,
+    },
+    53: {
+      id: 53,
+      organisation_id: 15,
+    },
+  });
+  const filters = fromJS({
+    organisationId: 15,
+  });
+  const result = selectors.invoicesByFiltersSelector.resultFunc(invoices, filters);
+  expect(Immutable.is(result.keySeq(), Immutable.Seq(['51','53']))).toBe(true);
+});

@@ -2,34 +2,9 @@ import Immutable from 'immutable';
 import { ApiError } from 'ethical-jobs-sdk';
 
 /**
- * Promise truthy
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
- */
-
-export function isPromise(value) {
-  if (value !== null && typeof value === 'object') {
-    return value && typeof value.then === 'function';
-  }
-  return false;
-}
-
-/**
- * Generates a namespaced action type
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
- */
-
-export function createActionType(base) {
-  return `ej/${base}`;
-}
-
-/**
  * Converts javscript to immutable structures
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @return Object
  */
-
 export function fromJS(jsValue) {
   return Immutable.fromJS(jsValue, (key, value, path) => {
     if (key === 'result') {
@@ -41,10 +16,8 @@ export function fromJS(jsValue) {
 
 /**
  * Clears a modules entities
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @return Object
  */
-
 export function clearEntities(state) {
   return state
     .update('entities', entities => entities.clear())
@@ -53,10 +26,8 @@ export function clearEntities(state) {
 
 /**
  * Updates a modules filters
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @return Object
  */
-
 export function updateFilters(state, filters) {
   return state
     .mergeDeep({ filters });
@@ -64,10 +35,8 @@ export function updateFilters(state, filters) {
 
 /**
  * Sets a modules state on a search request
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @return Object
  */
-
 export function mergeSearchRequest(state) {
   return state
     .update('entities', entities => entities.clear())
@@ -78,10 +47,8 @@ export function mergeSearchRequest(state) {
 
 /**
  * Merges a modules state on request actions
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @return Object
  */
-
 export function mergeRequest(state) {
   return state
     .set('fetching', true)
@@ -90,10 +57,8 @@ export function mergeRequest(state) {
 
 /**
  * Merges a modules state on success actions
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @return Object
  */
-
 export function mergeSuccess(state, payload) {
   return state
     .set('fetching', false)
@@ -106,10 +71,8 @@ export function mergeSuccess(state, payload) {
 
 /**
  * Merges a modules state on failure actions
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @return Object
  */
-
 export function mergeFailure(state, payload) {
   const value = (payload instanceof ApiError) ? payload.error : payload;
   return state

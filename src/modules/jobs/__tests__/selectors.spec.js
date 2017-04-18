@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { fromJS } from 'utils';
+import { fromJS } from 'utils/immutable';
 import { APPROVED, PENDING, DRAFT } from 'modules/jobs/statuses';
 import * as Assert from 'testing/assertions';
 import Jobs from 'modules/jobs';

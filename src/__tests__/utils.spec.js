@@ -1,5 +1,5 @@
-import { REQUEST, SUCCESS, FAILURE } from 'actionTypes'
-import { createActionType } from 'utils';
+import { REQUEST, SUCCESS, FAILURE } from 'utils/asyncTypes'
+import createActionType from 'utils/createActionType';
 
 describe('createActionType function', () => {
 

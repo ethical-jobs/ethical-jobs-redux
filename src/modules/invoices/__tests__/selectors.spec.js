@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { fromJS } from 'utils';
+import { fromJS } from 'utils/immutable';
 import * as Assert from 'testing/assertions';
 import Invoices from 'modules/invoices';
 

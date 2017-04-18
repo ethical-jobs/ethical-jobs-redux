@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import App from 'modules/app';
 import * as Assert from 'testing/assertions';
-import { REQUEST, SUCCESS, FAILURE } from 'actionTypes';
+import { REQUEST, SUCCESS, FAILURE } from 'utils/asyncTypes';
 import Taxonomies from 'modules/taxonomies';
 import { initialState } from 'modules/taxonomies/reducer';
 import * as Fixtures from 'modules/app/__tests__/_fixtures';

@@ -1,4 +1,4 @@
-import { isPromise } from '../utils';
+import isPromise from '../utils/isPromise';
 
 /**
  * Global promise catcher / logger

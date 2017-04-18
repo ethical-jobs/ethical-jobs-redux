@@ -1,5 +1,5 @@
-import { createActionType } from '../../utils';
-import Api from '../../api';
+import createActionType from '../../utils/createActionType';
+import Api from '../../utils/api';
 
 /*
 |--------------------------------------------------------------------------

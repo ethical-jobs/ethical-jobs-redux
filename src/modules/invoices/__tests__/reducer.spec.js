@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { REQUEST, SUCCESS, FAILURE } from 'actionTypes';
+import { REQUEST, SUCCESS, FAILURE } from 'utils/asyncTypes';
 import { initialState } from 'modules/invoices/reducer';
 import * as Assert from 'testing/assertions';
 import * as Fixtures from './_fixtures';

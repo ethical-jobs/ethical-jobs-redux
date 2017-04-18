@@ -1,11 +1,11 @@
 import Immutable from 'immutable';
-import { fromJS } from 'utils';
 import {
+  fromJS,
   mergeSearchRequest,
   mergeRequest,
   mergeSuccess,
   mergeFailure,
-} from '../utils';
+} from '../utils/immutable';
 
 /**
  * Asserts a modules "initial" state

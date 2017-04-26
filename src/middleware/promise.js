@@ -6,6 +6,6 @@ import promiseMiddleware from 'redux-promise-middleware';
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export default function globalErrorMiddleware() {
+export default function globalPromiseMiddleware() {
     return promiseMiddleware({ promiseTypeSuffixes: ['REQUEST', 'SUCCESS', 'FAILURE'] });
 }

@@ -1,4 +1,4 @@
-import isPromise from '../utils/isPromise';
+import isPromise from '../isPromise';
 
 /**
  * Global promise catcher / logger
@@ -14,9 +14,7 @@ export default function globalErrorMiddleware() {
     // Dispatch initial pending promise, but catch any errors
     return next(action).catch(error => {
       // log error in Rollbar
-      // log error in Rollbar
-      // log error in Rollbar
-      console.log('Rejected action: ', error);
+      console.log(`Rejected action ${action.type}: `, error);
       return error;
     });
   };

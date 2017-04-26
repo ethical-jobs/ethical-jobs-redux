@@ -1,11 +1,10 @@
 import Immutable from 'immutable';
-import { ApiError } from 'ethical-jobs-sdk';
 
 /**
  * Converts javscript to immutable structures
  * @return Object
  */
-export function fromJS(jsValue) {
+function fromJS(jsValue) {
   return Immutable.fromJS(jsValue, (key, value, path) => {
     if (key === 'result') {
       return value.toSet();
@@ -18,7 +17,7 @@ export function fromJS(jsValue) {
  * Clears a modules entities
  * @return Object
  */
-export function clearEntities(state) {
+function clearEntities(state) {
   return state
     .update('entities', entities => entities.clear())
     .update('result', result => result.clear());
@@ -28,7 +27,7 @@ export function clearEntities(state) {
  * Updates a modules filters
  * @return Object
  */
-export function updateFilters(state, filters) {
+function updateFilters(state, filters) {
   return state
     .mergeDeep({ filters });
 }
@@ -37,10 +36,10 @@ export function updateFilters(state, filters) {
  * Sets a modules state on a search request
  * @return Object
  */
-export function mergeSearchRequest(state) {
+function mergeSearchRequest(state) {
   return state
     .update('entities', entities => entities.clear())
-    .update('result', result => result.clear())
+    .update('result', result => Immutable.Set())
     .set('fetching', true)
     .set('error', false);
 }
@@ -49,7 +48,7 @@ export function mergeSearchRequest(state) {
  * Merges a modules state on request actions
  * @return Object
  */
-export function mergeRequest(state) {
+function mergeRequest(state) {
   return state
     .set('fetching', true)
     .set('error', false);
@@ -59,7 +58,7 @@ export function mergeRequest(state) {
  * Merges a modules state on success actions
  * @return Object
  */
-export function mergeSuccess(state, payload) {
+function mergeSuccess(state, payload) {
   return state
     .set('fetching', false)
     .set('error', false)
@@ -73,9 +72,19 @@ export function mergeSuccess(state, payload) {
  * Merges a modules state on failure actions
  * @return Object
  */
-export function mergeFailure(state, payload) {
-  const value = (payload instanceof ApiError) ? payload.error : payload;
+function mergeFailure(state, payload) {
+  const value = (payload instanceof Error) ? payload.error : payload;
   return state
     .set('error', Immutable.fromJS(value))
     .set('fetching', false);
 }
+
+export default {
+  fromJS,
+  clearEntities,
+  updateFilters,
+  mergeSearchRequest,
+  mergeRequest,
+  mergeSuccess,
+  mergeFailure,
+};

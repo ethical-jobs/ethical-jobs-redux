@@ -1,11 +1,5 @@
 import Immutable from 'immutable';
-import {
-  fromJS,
-  mergeSearchRequest,
-  mergeRequest,
-  mergeSuccess,
-  mergeFailure,
-} from '../utils/immutable';
+import ImmutableUtils from './immutable';
 
 /**
  * Asserts a modules "initial" state
@@ -13,7 +7,7 @@ import {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function initialState(reducer, expectedState) {
+function initialState(reducer, expectedState) {
   return Immutable.is(reducer(undefined), expectedState);
 }
 
@@ -23,7 +17,7 @@ export function initialState(reducer, expectedState) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function clearedEntities(reducer, action, initialState) {
+function clearedEntities(reducer, action, initialState) {
   const expected = initialState
     .set('entities', Immutable.Map())
     .set('result', Immutable.Set());
@@ -36,12 +30,12 @@ export function clearedEntities(reducer, action, initialState) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function updatedFilters(reducer, actionCreator, initialState) {
+function updatedFilters(reducer, actionCreator, initialState) {
   let state;
   state = reducer(undefined, actionCreator({ foo: 'bar' }));
   state = reducer(state, actionCreator({ bar: 123 }));
   state = reducer(state, actionCreator({ foo: 10000 }));
-  const expected = initialState.set('filters', Immutable.fromJS({ bar: 123, foo: 10000 }));
+  const expected = initialState.set('filters', ImmutableUtils.fromJS({ bar: 123, foo: 10000 }));
   return Immutable.is(state, expected);
 }
 
@@ -51,8 +45,8 @@ export function updatedFilters(reducer, actionCreator, initialState) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function searchRequestState(reducer, actionType, initialState) {
-  const expected = mergeSearchRequest(initialState);
+function searchRequestState(reducer, actionType, initialState) {
+  const expected = ImmutableUtils.mergeSearchRequest(initialState);
   return Immutable.is(reducer(undefined, { type: `${actionType}_REQUEST` }), expected);
 }
 
@@ -62,9 +56,9 @@ export function searchRequestState(reducer, actionType, initialState) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function requestState(reducer, actionTypes = [], initialState) {
+function requestState(reducer, actionTypes = [], initialState) {
   let passes = true;
-  const expected = mergeRequest(initialState);
+  const expected = ImmutableUtils.mergeRequest(initialState);
   actionTypes.forEach(type => {
     if (false === Immutable.is(reducer(undefined, { type }), expected)) {
       passes = false;
@@ -79,9 +73,9 @@ export function requestState(reducer, actionTypes = [], initialState) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function successState(reducer, actionTypes = [], initialState, fixture) {
+function successState(reducer, actionTypes = [], initialState, fixture) {
   let passes = true;
-  const expected = mergeSuccess(initialState, fixture);
+  const expected = ImmutableUtils.mergeSuccess(initialState, fixture);
   actionTypes.forEach(type => {
     const action = { type, payload: fixture };
     if (false === Immutable.is(reducer(undefined, action), expected)) {
@@ -97,9 +91,9 @@ export function successState(reducer, actionTypes = [], initialState, fixture) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function failureState(reducer, actionTypes = [], initialState, fixture) {
+function failureState(reducer, actionTypes = [], initialState, fixture) {
   let passes = true;
-  const expected = mergeFailure(initialState, fixture);
+  const expected = ImmutableUtils.mergeFailure(initialState, fixture);
   actionTypes.forEach(type => {
     const action = { type, payload: fixture, error: true };
     if (false === Immutable.is(reducer(undefined, action), expected)) {
@@ -115,8 +109,8 @@ export function failureState(reducer, actionTypes = [], initialState, fixture) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function rootSelector(key, selector) {
-  const state = fromJS({
+function rootSelector(key, selector) {
+  const state = ImmutableUtils.fromJS({
     entities: {
       [key]: 'foo-bar-bam',
     }
@@ -130,8 +124,8 @@ export function rootSelector(key, selector) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function fetchingSelector(key, selector) {
-  const state = fromJS({
+function fetchingSelector(key, selector) {
+  const state = ImmutableUtils.fromJS({
     entities: {
       [key]: {
         fetching: 'foo-bar-bam',
@@ -147,8 +141,8 @@ export function fetchingSelector(key, selector) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function filtersSelector(key, selector) {
-  const state = fromJS({
+function filtersSelector(key, selector) {
+  const state = ImmutableUtils.fromJS({
     entities: {
       [key]: {
         filters: 'foo-bar-bam',
@@ -164,8 +158,8 @@ export function filtersSelector(key, selector) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function resultSelector(key, selector) {
-  const state = fromJS({
+function resultSelector(key, selector) {
+  const state = ImmutableUtils.fromJS({
     entities: {
       [key]: {
         result: 'foo-bar-bam',
@@ -181,8 +175,8 @@ export function resultSelector(key, selector) {
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
-export function entitiesSelector(moduleKey, entitiesKey, selector) {
-  const state = fromJS({
+function entitiesSelector(moduleKey, entitiesKey, selector) {
+  const state = ImmutableUtils.fromJS({
     entities: {
       [moduleKey]: {
         entities: {
@@ -191,5 +185,22 @@ export function entitiesSelector(moduleKey, entitiesKey, selector) {
       },
     }
   });
-  return Immutable.is('foo-bar-bam', selector(state));
+  const correctState = Immutable.is('foo-bar-bam', selector(state));
+  const defaultState = Immutable.is(Immutable.Map(), selector(ImmutableUtils.fromJS({})));
+  return correctState && defaultState;
 }
+
+export default {
+  initialState,
+  clearedEntities,
+  updatedFilters,
+  searchRequestState,
+  requestState,
+  successState,
+  failureState,
+  rootSelector,
+  fetchingSelector,
+  filtersSelector,
+  resultSelector,
+  entitiesSelector,
+};

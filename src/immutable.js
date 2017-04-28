@@ -5,12 +5,13 @@ import Immutable from 'immutable';
  * @return Object
  */
 function fromJS(jsValue) {
-  return Immutable.fromJS(jsValue, (key, value, path) => {
-    if (key === 'result') {
-      return value.toSet();
-    }
-    return Immutable.isIndexed(value) ? value.toList() : value.toMap();
-  });
+  return Immutable.fromJS(jsValue);
+  // return Immutable.fromJS(jsValue, (key, value, path) => {
+  //   if (key === 'result') {
+  //     return value.toSet();
+  //   }
+  //   return Immutable.isIndexed(value) ? value.toList() : value.toMap();
+  // });
 }
 
 /**
@@ -39,7 +40,7 @@ function updateFilters(state, filters) {
 function mergeSearchRequest(state) {
   return state
     .update('entities', entities => entities.clear())
-    .update('result', result => Immutable.Set())
+    .update('result', result => Immutable.List())
     .set('fetching', true)
     .set('error', false);
 }
@@ -64,7 +65,8 @@ function mergeSuccess(state, payload) {
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
     .update('result', result => {
-      return Array.isArray(payload.data.result) ? result.union(payload.data.result) : payload.data.result;
+      // return Array.isArray(payload.data.result) ? result.union(payload.data.result) : payload.data.result;
+      return Array.isArray(payload.data.result) ? result.mergeDeep(payload.data.result) : payload.data.result;
     });
 }
 

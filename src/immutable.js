@@ -1,20 +1,6 @@
 import Immutable from 'immutable';
 
 /**
- * Converts javscript to immutable structures
- * @return Object
- */
-function fromJS(jsValue) {
-  return Immutable.fromJS(jsValue);
-  // return Immutable.fromJS(jsValue, (key, value, path) => {
-  //   if (key === 'result') {
-  //     return value.toSet();
-  //   }
-  //   return Immutable.isIndexed(value) ? value.toList() : value.toMap();
-  // });
-}
-
-/**
  * Clears a modules entities
  * @return Object
  */
@@ -40,7 +26,7 @@ function updateFilters(state, filters) {
 function mergeSearchRequest(state) {
   return state
     .update('entities', entities => entities.clear())
-    .update('result', result => Immutable.List())
+    .update('results', result => Immutable.List())
     .set('fetching', true)
     .set('error', false);
 }
@@ -56,7 +42,7 @@ function mergeRequest(state) {
 }
 
 /**
- * Merges a modules state on success actions
+ * Merges a modules state on success action
  * @return Object
  */
 function mergeSuccess(state, payload) {
@@ -64,10 +50,19 @@ function mergeSuccess(state, payload) {
     .set('fetching', false)
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
-    .update('result', result => {
-      // return Array.isArray(payload.data.result) ? result.union(payload.data.result) : payload.data.result;
-      return Array.isArray(payload.data.result) ? result.mergeDeep(payload.data.result) : payload.data.result;
-    });
+    .update('result', result => payload && payload.data && payload.data.result || null );
+}
+
+/**
+ * Merges a modules state on collection success action
+ * @return Object
+ */
+function mergeCollectionSuccess(state, payload) {
+  return state
+    .set('fetching', false)
+    .set('error', false)
+    .update('entities', entities => entities.mergeDeep(payload.data.entities))
+    .update('results', result => result.mergeDeep(payload.data.result));
 }
 
 /**
@@ -82,11 +77,11 @@ function mergeFailure(state, payload) {
 }
 
 export default {
-  fromJS,
   clearEntities,
   updateFilters,
   mergeSearchRequest,
   mergeRequest,
   mergeSuccess,
+  mergeCollectionSuccess,
   mergeFailure,
 };

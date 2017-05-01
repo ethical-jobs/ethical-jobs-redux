@@ -59,7 +59,6 @@
     ],
     "modulePaths": [
       "<rootDir>/src/"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/src/testing/testEnvironment.js"
+    ]
   }
 }

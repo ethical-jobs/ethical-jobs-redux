@@ -1,17 +1,4 @@
-import { REQUEST, SUCCESS, FAILURE } from 'utils/asyncTypes'
-import createActionType from 'utils/createActionType';
-
-describe('createActionType function', () => {
-
-  it('always returns a string', () => {
-    expect(typeof createActionType()).toBe('string');
-    expect(typeof createActionType('FOOBAR')).toBe('string');
-  });
-
-  it('returns a correctly namespaced action', () => {
-    expect(createActionType('SOME_ACTION')).toBe('ej/SOME_ACTION');
-  });
-});
+import { REQUEST, SUCCESS, FAILURE } from 'asyncTypes'
 
 describe('async action type functions', () => {
 

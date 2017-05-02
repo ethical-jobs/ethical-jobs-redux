@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import ImmutableTools from 'ethical-jobs-redux';
+import ImmutableTools from './immutable';
 import { createSelector } from 'reselect';
 
 const create = (key, property) => state => state.getIn(['entities', key, property])

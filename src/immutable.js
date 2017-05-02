@@ -76,6 +76,16 @@ function mergeFailure(state, payload) {
     .set('fetching', false);
 }
 
+/**
+ * Creates an ordered map from a list and a map
+ * @param {List}
+ * @param {Map}
+ * @return OrderedMap
+ */
+function createOrderedMap(keys, items) {
+  return Immutable.OrderedMap(keys.map(key => [key, items.get(key)]));
+}
+
 export default {
   clearEntities,
   updateFilters,
@@ -84,4 +94,5 @@ export default {
   mergeSuccess,
   mergeCollectionSuccess,
   mergeFailure,
+  createOrderedMap,
 };

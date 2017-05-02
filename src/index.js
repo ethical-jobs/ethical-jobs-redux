@@ -9,3 +9,5 @@ export { default as ImmutableUtils } from './immutable';
 export { default as Assertions } from './assertions';
 
 export { default as Middleware } from './middleware';
+
+export { default as SelectorFactory } from './selectorFactory';

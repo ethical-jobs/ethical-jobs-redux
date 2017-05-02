@@ -83,7 +83,7 @@ function mergeFailure(state, payload) {
  * @return OrderedMap
  */
 function createOrderedMap(keys, items) {
-  return Immutable.OrderedMap(keys.map(key => [key, items.get(key)]));
+  return Immutable.OrderedMap(keys.map(key => [key, items.get(key.toString())]));
 }
 
 export default {

@@ -18,7 +18,7 @@ gulp.task('build', () => {
         resolve(),
         commonjs({
           include: ['node_modules/**'],
-        }),    
+        }),
         babel(babelrc()),
       ],
       external: Object.keys(pkg.dependencies),
@@ -32,6 +32,7 @@ gulp.task('build', () => {
         globals: {
           'immutable': 'Immutable',
           'redux-promise-middleware': 'promiseMiddleware',
+          'reselect': 'reselect',
         },
         dest: 'lib/umd/index.js',
         format: 'umd',

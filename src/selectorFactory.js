@@ -16,7 +16,7 @@ const createResultSelector = key => createWithDefault(key, 'result', false);
 
 const createResultsSelector = key => createWithDefault(key, 'results', Immutable.List());
 
-const createEntitiesSelector = (key, nestedKey) => state => state.getIn([
+const createEntitiesSelector = (key, nestedKey = false) => state => state.getIn([
   'entities', key, 'entities', nestedKey || key
 ], Immutable.Map());
 

@@ -35,7 +35,7 @@ function updatedFilters(reducer, actionCreator, initialState) {
   state = reducer(undefined, actionCreator({ foo: 'bar' }));
   state = reducer(state, actionCreator({ bar: 123 }));
   state = reducer(state, actionCreator({ foo: 10000 }));
-  const expected = initialState.set('filters', ImmutableUtils.fromJS({ bar: 123, foo: 10000 }));
+  const expected = initialState.set('filters', Immutable.fromJS({ bar: 123, foo: 10000 }));
   return Immutable.is(state, expected);
 }
 
@@ -104,28 +104,13 @@ function failureState(reducer, actionTypes = [], initialState, fixture) {
 }
 
 /**
- * Asserts a modules rootSelector
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
- */
-
-function rootSelector(key, selector) {
-  const state = ImmutableUtils.fromJS({
-    entities: {
-      [key]: 'foo-bar-bam',
-    }
-  });
-  return Immutable.is('foo-bar-bam', selector(state));
-}
-
-/**
  * Asserts a modules fetchingSelector
  *
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>
  */
 
 function fetchingSelector(key, selector) {
-  const state = ImmutableUtils.fromJS({
+  const state = Immutable.fromJS({
     entities: {
       [key]: {
         fetching: 'foo-bar-bam',
@@ -142,7 +127,7 @@ function fetchingSelector(key, selector) {
  */
 
 function filtersSelector(key, selector) {
-  const state = ImmutableUtils.fromJS({
+  const state = Immutable.fromJS({
     entities: {
       [key]: {
         filters: 'foo-bar-bam',
@@ -159,7 +144,7 @@ function filtersSelector(key, selector) {
  */
 
 function resultSelector(key, selector) {
-  const state = ImmutableUtils.fromJS({
+  const state = Immutable.fromJS({
     entities: {
       [key]: {
         result: 'foo-bar-bam',
@@ -176,7 +161,7 @@ function resultSelector(key, selector) {
  */
 
 function entitiesSelector(moduleKey, entitiesKey, selector) {
-  const state = ImmutableUtils.fromJS({
+  const state = Immutable.fromJS({
     entities: {
       [moduleKey]: {
         entities: {
@@ -186,7 +171,7 @@ function entitiesSelector(moduleKey, entitiesKey, selector) {
     }
   });
   const correctState = Immutable.is('foo-bar-bam', selector(state));
-  const defaultState = Immutable.is(Immutable.Map(), selector(ImmutableUtils.fromJS({})));
+  const defaultState = Immutable.is(Immutable.Map(), selector(Immutable.fromJS({})));
   return correctState && defaultState;
 }
 
@@ -198,7 +183,6 @@ export default {
   requestState,
   successState,
   failureState,
-  rootSelector,
   fetchingSelector,
   filtersSelector,
   resultSelector,

@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import ImmutableTools from './immutable';
 import { createSelector } from 'reselect';
 
-const create = (key, property) => state => state.getIn(['entities', key, property])
+const create = (key, property) => state => state.getIn(['entities', key, property]);
 
 const createWithDefault = (key, property, defaultVal) => state => state.getIn([
   'entities', key, property

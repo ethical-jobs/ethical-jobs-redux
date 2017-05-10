@@ -7,7 +7,8 @@ import Immutable from 'immutable';
 function clearEntities(state) {
   return state
     .update('entities', entities => entities.clear())
-    .update('result', result => result.clear());
+    .update('results', result => result.clear())
+    .set('result', false);
 }
 
 /**
@@ -50,7 +51,7 @@ function mergeSuccess(state, payload) {
     .set('fetching', false)
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
-    .update('result', result => payload && payload.data && payload.data.result || null );
+    .update('result', result => payload && payload.data && payload.data.result || false );
 }
 
 /**
@@ -62,8 +63,9 @@ function mergeCollectionSuccess(state, payload) {
     .set('fetching', false)
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
-    .update('results', result => result.mergeDeep(payload.data.result));
+    .update('results', results => results.concat(payload.data.result));
 }
+// results.mergeWith(v => payload.data.result));
 
 /**
  * Merges a modules state on failure actions
@@ -83,7 +85,7 @@ function mergeFailure(state, payload) {
  * @return OrderedMap
  */
 function createOrderedMap(keys, items) {
-  return Immutable.OrderedMap(keys.map(key => [key, items.get(key.toString())]));
+  return Immutable.OrderedMap(keys.map(key => [key.toString(), items.get(key.toString())]));
 }
 
 export default {

@@ -1,5 +1,5 @@
 import { fromJS, is, Map } from 'immutable';
-import SelectorFactory from 'SelectorFactory'
+import SelectorFactory from 'selectorFactory'
 
 describe('create selector factory', () => {
   const state = fromJS({

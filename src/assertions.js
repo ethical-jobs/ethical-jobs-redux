@@ -20,7 +20,7 @@ function initialState(reducer, expectedState) {
 function clearedEntities(reducer, action, initialState) {
   const expected = initialState
     .set('entities', Immutable.Map())
-    .set('result', Immutable.Set());
+    .set('result', false);
   return Immutable.is(reducer(undefined, action), expected);
 }
 

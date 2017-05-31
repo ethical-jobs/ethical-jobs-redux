@@ -13,9 +13,7 @@ export default function globalErrorMiddleware() {
 
     // Dispatch initial pending promise, but catch any errors
     return next(action).catch(error => {
-      // log error in Rollbar
-      console.log(`Rejected action ${action.type}: `, error);
-      return error;
+      throw error; // TODO: log error in Rollbar
     });
   };
 }

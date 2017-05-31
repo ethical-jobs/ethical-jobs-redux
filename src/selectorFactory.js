@@ -27,7 +27,7 @@ const createOrderedEntitiesSelector = (entitiesSelector, resultsSelector) => cre
 
 const createIdSelector = (entitiesSelector, resultSelector) => createSelector(
   [entitiesSelector, resultSelector],
-  (entities, result) => entities.get(result.toString())
+  (entities, result) => entities.get(result.toString(), Immutable.Map())
 );
 
 export default {

@@ -17,7 +17,7 @@ function clearEntities(state) {
  */
 function updateFilters(state, filters) {
   return state
-    .mergeDeep({ filters });
+    .mergeDeep({ filters: Immutable.fromJS(filters) });
 }
 
 /**
@@ -27,7 +27,7 @@ function updateFilters(state, filters) {
 function mergeSearchRequest(state) {
   return state
     .update('entities', entities => entities.clear())
-    .update('results', result => Immutable.List())
+    .update('results', result => Immutable.Set())
     .set('fetching', true)
     .set('error', false);
 }
@@ -63,7 +63,7 @@ function mergeCollectionSuccess(state, payload) {
     .set('fetching', false)
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
-    .update('results', results => results.concat(payload.data.result));
+    .update('results', results => results.union(Immutable.Set(payload.data.result)));
 }
 // results.mergeWith(v => payload.data.result));
 

@@ -1,15 +1,15 @@
-import { fromJS, is, OrderedMap } from 'immutable';
+import { fromJS, is, OrderedMap, Set } from 'immutable';
 import ImmtuableUtils from '../immutable';
 
 describe('clearEntities function', () => {
   const state = fromJS({
     entities: { foo: 'bar' },
-    results: [123,456,789],
+    results: Set([123,456,789]),
     result: 123,
   });
   const expected = fromJS({
     entities: {},
-    results: [],
+    results: Set([]),
     result: false,
   });
   it('clears entity state', () => {
@@ -32,14 +32,14 @@ describe('updateFilters function', () => {
 describe('mergeSearchRequest function', () => {
   const state = fromJS({
     entities: { foo: 'bar' },
-    results: [123,456,789],
+    results: Set([123,456,789]),
     fetching: false,
     error: false,
   });
   it('returns correct request state and clears entities', () => {
     const expected = fromJS({
       entities: {},
-      results: [],
+      results: Set([]),
       fetching: true,
       error: false,
     });
@@ -90,18 +90,18 @@ describe('mergeCollectionSuccess function', () => {
     fetching: true,
     error: false,
     entities: { foo: 'bar' },
-    results: [298],
+    results: Set([298]),
   });
   const expected = fromJS({
     fetching: false,
     error: false,
     entities: { foo: 'bar', bar: 'foo', bing: 'bang' },
-    results: [298, 123, 456],
+    results: Set([298, 123, 456]),
   });
   const actual = ImmtuableUtils.mergeCollectionSuccess(state, {
     data: {
       entities: { bar: 'foo', bing: 'bang' },
-      result: [123, 456],
+      result: Set([123, 456]),
     },
   });
   it('returns correct success state', () => {

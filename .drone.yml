@@ -10,8 +10,7 @@ pipeline:
 
   publish:
     image: plugins/npm
-    username: ethicaljobs
-    password: ${NPM_PASSWORD}
+    secrets: [ npm_username, npm_password ]
     email: andrew@ethicaljobs.com.au
     when:
       status: success

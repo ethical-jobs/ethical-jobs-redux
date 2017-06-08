@@ -27,7 +27,7 @@ function updateFilters(state, filters) {
 function mergeSearchRequest(state) {
   return state
     .update('entities', entities => entities.clear())
-    .update('results', result => Immutable.Set())
+    .update('results', result => Immutable.List())
     .set('fetching', true)
     .set('error', false);
 }
@@ -63,9 +63,8 @@ function mergeCollectionSuccess(state, payload) {
     .set('fetching', false)
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
-    .update('results', results => results.union(Immutable.Set(payload.data.result)));
+    .update('results', results => Immutable.List(payload && payload.data && payload.data.result, Immutable.List()));
 }
-// results.mergeWith(v => payload.data.result));
 
 /**
  * Merges a modules state on failure actions

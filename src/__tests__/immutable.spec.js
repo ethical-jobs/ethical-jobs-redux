@@ -1,15 +1,15 @@
-import { fromJS, is, OrderedMap, Set } from 'immutable';
+import { fromJS, is, OrderedMap, List } from 'immutable';
 import ImmtuableUtils from '../immutable';
 
 describe('clearEntities function', () => {
   const state = fromJS({
     entities: { foo: 'bar' },
-    results: Set([123,456,789]),
+    results: List([123,456,789]),
     result: 123,
   });
   const expected = fromJS({
     entities: {},
-    results: Set([]),
+    results: List([]),
     result: false,
   });
   it('clears entity state', () => {
@@ -32,14 +32,14 @@ describe('updateFilters function', () => {
 describe('mergeSearchRequest function', () => {
   const state = fromJS({
     entities: { foo: 'bar' },
-    results: Set([123,456,789]),
+    results: List([123,456,789]),
     fetching: false,
     error: false,
   });
   it('returns correct request state and clears entities', () => {
     const expected = fromJS({
       entities: {},
-      results: Set([]),
+      results: List([]),
       fetching: true,
       error: false,
     });
@@ -90,18 +90,18 @@ describe('mergeCollectionSuccess function', () => {
     fetching: true,
     error: false,
     entities: { foo: 'bar' },
-    results: Set([298]),
+    results: List([298]),
   });
   const expected = fromJS({
     fetching: false,
     error: false,
     entities: { foo: 'bar', bar: 'foo', bing: 'bang' },
-    results: Set([298, 123, 456]),
+    results: List([123, 456]),
   });
   const actual = ImmtuableUtils.mergeCollectionSuccess(state, {
     data: {
       entities: { bar: 'foo', bing: 'bang' },
-      result: Set([123, 456]),
+      result: List([123, 456]),
     },
   });
   it('returns correct success state', () => {
@@ -127,26 +127,38 @@ describe('mergeFailure function', () => {
 });
 
 describe('createOrderedMap function', () => {
-  it('can order a map byt a list of keys', () => {
-    const orderedList = fromJS([
-      22,
-      33,
-      55,
-      88,
+
+  it('can order a map by a List of keys', () => {
+    const results = fromJS([
+      22,33,55,88,
     ]);
-    const unorderedMap = fromJS({
+    const entities = fromJS({
       22: { id: 22, title: 'Number 22' },
       88: { id: 88, title: 'Number 88' },
       55: { id: 55, title: 'Number 55' },
       33: { id: 33, title: 'Number 33' },
     });
-    const expected = fromJS({
+    const shouldBeOrdered = ImmtuableUtils.createOrderedMap(results, entities);
+    expect(shouldBeOrdered.keySeq().toArray()).toEqual([
+      '22','33','55','88',
+    ]);
+  });
+
+  it('order is preserved when converted to List', () => {
+    const results = fromJS([
+      22,33,55,88,
+    ]);
+    const entities = fromJS({
       22: { id: 22, title: 'Number 22' },
-      33: { id: 33, title: 'Number 33' },
-      55: { id: 55, title: 'Number 55' },
       88: { id: 88, title: 'Number 88' },
-    }).toOrderedMap();
-    const actual = ImmtuableUtils.createOrderedMap(orderedList, unorderedMap);
-    expect(is(actual, expected)).toBe(true);
+      55: { id: 55, title: 'Number 55' },
+      33: { id: 33, title: 'Number 33' },
+    });
+    const shouldBeOrdered = ImmtuableUtils.createOrderedMap(results, entities);
+    const asList = shouldBeOrdered.toList();
+    expect(asList.get(0).get('id')).toBe(22);
+    expect(asList.get(1).get('id')).toBe(33);
+    expect(asList.get(2).get('id')).toBe(55);
+    expect(asList.get(3).get('id')).toBe(88);
   });
 });

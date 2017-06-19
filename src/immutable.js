@@ -21,6 +21,15 @@ function updateFilters(state, filters) {
 }
 
 /**
+ * Clears a modules filters
+ * @return Object
+ */
+function clearFilters(state) {
+  return state
+    .get('filters').clear();
+}
+
+/**
  * Sets a modules state on a search request
  * @return Object
  */
@@ -90,6 +99,7 @@ function createOrderedMap(keys, items) {
 export default {
   clearEntities,
   updateFilters,
+  clearFilters,
   mergeSearchRequest,
   mergeRequest,
   mergeSuccess,

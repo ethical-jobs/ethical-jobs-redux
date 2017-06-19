@@ -1,4 +1,4 @@
-import { fromJS, is, OrderedMap, List } from 'immutable';
+import { fromJS, is, OrderedMap, List, Map } from 'immutable';
 import ImmtuableUtils from '../immutable';
 
 describe('clearEntities function', () => {
@@ -26,6 +26,13 @@ describe('updateFilters function', () => {
   it('it can update a filter', () => {
     const expected = fromJS({ filters: { foo: 'bam' } });
     expect(is(ImmtuableUtils.updateFilters(state, { foo: 'bam' }), expected)).toBe(true);
+  });
+});
+
+describe('clearFilters function', () => {
+  const state = fromJS({ filters: { foo: 'bar', bam: 'wham' } });
+  it('it can clear all filters', () => {
+    expect(is(ImmtuableUtils.clearFilters(state), Map())).toBe(true);
   });
 });
 

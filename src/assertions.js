@@ -47,7 +47,7 @@ function updatedFilters(reducer, actionCreator, initialState) {
  * @param {object} initialState
  * @return {boolean}
  */
-function clearFilters(reducer, actionCreator, initialState) {
+function clearedFilters(reducer, actionCreator, initialState) {
   const state = reducer({ foo: 'bar' }, actionCreator());
   return Immutable.is(state, Immutable.Map());
 }
@@ -192,6 +192,7 @@ export default {
   initialState,
   clearedEntities,
   updatedFilters,
+  clearedFilters,
   searchRequestState,
   requestState,
   successState,

@@ -48,8 +48,9 @@ function updatedFilters(reducer, actionCreator, initialState) {
  * @return {boolean}
  */
 function clearedFilters(reducer, actionCreator, initialState) {
+  const expected = initialState.set('filters', Immutable.Map());
   const state = reducer({ foo: 'bar' }, actionCreator());
-  return Immutable.is(state, Immutable.Map());
+  return Immutable.is(state, expected);
 }
 
 /**

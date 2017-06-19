@@ -1,4 +1,4 @@
-# 0.2.17
+# 0.2.18
 
 - adding changelog (no backlog)
 - clearFilters immutble helper 

@@ -32,7 +32,7 @@ describe('updateFilters function', () => {
 describe('clearFilters function', () => {
   const state = fromJS({ filters: { foo: 'bar', bam: 'wham' } });
   it('it can clear all filters', () => {
-    expect(is(ImmtuableUtils.clearFilters(state), Map())).toBe(true);
+    expect(is(ImmtuableUtils.clearFilters(state), fromJS({ filters: {} }))).toBe(true);
   });
 });
 

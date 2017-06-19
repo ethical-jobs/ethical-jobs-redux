@@ -49,7 +49,8 @@ function updatedFilters(reducer, actionCreator, initialState) {
  */
 function clearedFilters(reducer, actionCreator, initialState) {
   const expected = initialState.set('filters', Immutable.Map());
-  const state = reducer({ foo: 'bar' }, actionCreator());
+  const filters = Immutable.fromJS({ foo: 'bar' });
+  const state = reducer(filters, actionCreator());
   return Immutable.is(state, expected);
 }
 

@@ -26,7 +26,8 @@ function updateFilters(state, filters) {
  */
 function clearFilters(state) {
   return state
-    .get('filters').clear();
+    .get('filters')
+    .clear();
 }
 
 /**

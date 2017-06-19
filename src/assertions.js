@@ -13,10 +13,11 @@ function initialState(reducer, expectedState) {
 
 /**
  * Asserts a modules "cleared" state
- *
- * @author Andrew McLagan <andrew@ethicaljobs.com.au>
+ * @param {object} reducer
+ * @param {function} action
+ * @param {object} initialState
+ * @return {bool}
  */
-
 function clearedEntities(reducer, action, initialState) {
   const expected = initialState
     .set('entities', Immutable.Map())
@@ -49,7 +50,7 @@ function updatedFilters(reducer, actionCreator, initialState) {
  */
 function clearedFilters(reducer, actionCreator, initialState) {
   const expected = initialState.set('filters', Immutable.Map());
-  const filters = Immutable.fromJS({ foo: 'bar' });
+  const filters = Immutable.fromJS({ filters: { foo: 'bar' }});
   const state = reducer(filters, actionCreator());
   return Immutable.is(state, expected);
 }

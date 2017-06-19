@@ -1,5 +1,5 @@
-# 0.2.16
+# 0.2.17
 
-- adding changelog
+- adding changelog (no backlog)
 - clearFilters immutble helper 
 - clearFilters assertion test helper

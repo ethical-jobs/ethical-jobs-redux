@@ -1,4 +1,4 @@
-# 0.2.25
+# 0.2.26
 
 - seperating immutable utility tests
 - improving immutable utility tests

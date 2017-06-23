@@ -36,24 +36,6 @@ describe('clearFilters function', () => {
   });
 });
 
-describe('mergeSearchRequest function', () => {
-  const state = fromJS({
-    entities: { foo: 'bar' },
-    results: List([123,456,789]),
-    fetching: false,
-    error: false,
-  });
-  it('returns correct request state and clears entities', () => {
-    const expected = fromJS({
-      entities: {},
-      results: List([]),
-      fetching: true,
-      error: false,
-    });
-    expect(is(ImmtuableUtils.mergeSearchRequest(state), expected)).toBe(true);
-  });
-});
-
 describe('mergeRequest function', () => {
   const state = fromJS({
     fetching: false,
@@ -65,54 +47,6 @@ describe('mergeRequest function', () => {
       error: false,
     });
     expect(is(ImmtuableUtils.mergeRequest(state), expected)).toBe(true);
-  });
-});
-
-describe('mergeSuccess function', () => {
-  const state = fromJS({
-    fetching: true,
-    error: false,
-    entities: { foo: 'bar' },
-    result: 298,
-  });
-  const expected = fromJS({
-    fetching: false,
-    error: false,
-    entities: { foo: 'bar', bar: 'foo' },
-    result: 123,
-  });
-  const actual = ImmtuableUtils.mergeSuccess(state, {
-    data: {
-      entities: { bar: 'foo' },
-      result: 123,
-    },
-  });
-  it('returns correct success state', () => {
-    expect(is(actual, expected)).toBe(true);
-  });
-});
-
-describe('mergeCollectionSuccess function', () => {
-  const state = fromJS({
-    fetching: true,
-    error: false,
-    entities: { foo: 'bar' },
-    results: List([298]),
-  });
-  const expected = fromJS({
-    fetching: false,
-    error: false,
-    entities: { foo: 'bar', bar: 'foo', bing: 'bang' },
-    results: List([123, 456]),
-  });
-  const actual = ImmtuableUtils.mergeCollectionSuccess(state, {
-    data: {
-      entities: { bar: 'foo', bing: 'bang' },
-      result: List([123, 456]),
-    },
-  });
-  it('returns correct success state', () => {
-    expect(is(actual, expected)).toBe(true);
   });
 });
 

@@ -36,7 +36,7 @@ function clearFilters(state) {
 function mergeSearchRequest(state) {
   return state
     .update('entities', entities => entities.clear())
-    .update('results', result => Immutable.List())
+    .update('results', result => Immutable.Set())
     .set('fetching', true)
     .set('error', false);
 }
@@ -72,7 +72,11 @@ function mergeCollectionSuccess(state, payload) {
     .set('fetching', false)
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
-    .update('results', results => Immutable.List(payload && payload.data && payload.data.result, Immutable.List()));
+    .update('results', results => {
+      const payloadResult = Immutable.Set(payload && payload.data && payload.data.result, Immutable.Set());
+      const resultsSet = Immutable.Set.isSet(results) ? results : results.toSet();
+      return resultsSet.union(payloadResult);
+    });
 }
 
 /**

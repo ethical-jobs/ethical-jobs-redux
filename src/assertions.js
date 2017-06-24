@@ -212,6 +212,7 @@ export default {
   clearedEntities,
   updatedFilters,
   clearedFilters,
+  updatedSyncFilters,
   searchRequestState,
   requestState,
   successState,

@@ -1,3 +1,7 @@
+# 0.2.27
+
+- added syncFilter actions
+
 # 0.2.26
 
 - seperating immutable utility tests

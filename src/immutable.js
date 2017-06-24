@@ -30,6 +30,15 @@ function clearFilters(state) {
 }
 
 /**
+ * Updates a modules sync filters
+ * @return Object
+ */
+function updateSyncFilters(state, filters) {
+  return state
+    .mergeDeep({ syncFilters: Immutable.fromJS(filters) });
+}
+
+/**
  * Sets a modules state on a search request
  * @return Object
  */
@@ -104,6 +113,7 @@ export default {
   clearEntities,
   updateFilters,
   clearFilters,
+  updateSyncFilters,
   mergeSearchRequest,
   mergeRequest,
   mergeSuccess,

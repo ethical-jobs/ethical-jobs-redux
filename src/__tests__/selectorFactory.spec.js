@@ -60,6 +60,29 @@ describe('createFiltersSelector selector factory', () => {
   });
 });
 
+describe('createSyncFiltersSelector selector factory', () => {
+  const selector = SelectorFactory.createSyncFiltersSelector('jobs');
+  it('creates a selector that selects sync filters state', () => {
+    const state = fromJS({
+      entities: {
+        jobs: {
+          syncFilters: { foo: 'bar' },
+        },
+      },
+    });
+    const expected = fromJS({ foo: 'bar' });
+    expect(is(selector(state), expected)).toBe(true);
+  });
+  it('creates a selector that selects a default state', () => {
+    const state = fromJS({
+      entities: {
+        jobs: {},
+      },
+    });
+    expect(is(selector(state), Map())).toBe(true);
+  });
+});
+
 describe('createPropFiltersSelector selector factory', () => {
   const selector = SelectorFactory.createPropFiltersSelector();
   it('creates a selector that selects a components prop filters', () => {

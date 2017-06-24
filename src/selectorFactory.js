@@ -10,6 +10,8 @@ const createWithDefault = (key, property, defaultVal) => state => state.getIn([
 
 const createFiltersSelector = key => createWithDefault(key, 'filters', Immutable.Map());
 
+const createSyncFiltersSelector = key => createWithDefault(key, 'syncFilters', Immutable.Map());
+
 const createPropFiltersSelector = () => (state, props) => Immutable.Map(props.filters, Immutable.Map());
 
 const createResultSelector = key => createWithDefault(key, 'result', false);
@@ -35,6 +37,7 @@ export default {
   createWithDefault,
   createFiltersSelector,
   createPropFiltersSelector,
+  createSyncFiltersSelector,
   createResultSelector,
   createResultsSelector,
   createEntitiesSelector,

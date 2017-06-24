@@ -1,7 +1,8 @@
-# 0.2.28
+# 0.2.29
 
 - added syncFilter actions
--- added syncFilter test helpers
+- added syncFilter test helpers
+- added syncFilter selector factory and tests
 
 # 0.2.26
 

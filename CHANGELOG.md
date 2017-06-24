@@ -1,6 +1,7 @@
-# 0.2.27
+# 0.2.28
 
 - added syncFilter actions
+-- added syncFilter test helpers
 
 # 0.2.26
 

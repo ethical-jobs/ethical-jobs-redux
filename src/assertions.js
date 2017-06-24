@@ -56,6 +56,22 @@ function clearedFilters(reducer, actionCreator, initialState) {
 }
 
 /**
+ * Asserts a modules updated syncFilter state
+ * @param {object} reducer
+ * @param {function} actionCreator
+ * @param {object} initialState
+ * @return {boolean}
+ */
+function updatedSyncFilters(reducer, actionCreator, initialState) {
+  let state;
+  state = reducer(undefined, actionCreator({ foo: 'bar' }));
+  state = reducer(state, actionCreator({ bar: 123 }));
+  state = reducer(state, actionCreator({ foo: 10000 }));
+  const expected = initialState.set('syncFilters', Immutable.fromJS({ bar: 123, foo: 10000 }));
+  return Immutable.is(state, expected);
+}
+
+/**
  * Asserts a modules "search request" state
  *
  * @author Andrew McLagan <andrew@ethicaljobs.com.au>

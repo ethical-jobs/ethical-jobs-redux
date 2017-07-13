@@ -1,3 +1,7 @@
+# 0.2.31
+
+- mergeSuccess now replaces entites state, not merge (bug)
+
 # 0.2.30
 
 - added syncFilter actions

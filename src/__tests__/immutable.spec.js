@@ -71,35 +71,35 @@ describe('createOrderedMap function', () => {
 
   it('can order a map by a List of keys', () => {
     const results = fromJS([
-      22,33,55,88,
+      'm192','j72y',4654,'x172',
     ]);
     const entities = fromJS({
-      22: { id: 22, title: 'Number 22' },
-      88: { id: 88, title: 'Number 88' },
-      55: { id: 55, title: 'Number 55' },
-      33: { id: 33, title: 'Number 33' },
+      'x172': { id: 22, title: 'Number 22' },
+      'm192': { id: 88, title: 'Number 88' },
+      4654: { id: 55, title: 'Number 55' },
+      'j72y': { id: 33, title: 'Number 33' },
     });
     const shouldBeOrdered = ImmtuableUtils.createOrderedMap(results, entities);
     expect(shouldBeOrdered.keySeq().toArray()).toEqual([
-      '22','33','55','88',
+      'm192','j72y','4654','x172',
     ]);
   });
 
   it('order is preserved when converted to List', () => {
     const results = fromJS([
-      22,33,55,88,
+      'm192','j72y',4654,'x172',
     ]);
     const entities = fromJS({
-      22: { id: 22, title: 'Number 22' },
-      88: { id: 88, title: 'Number 88' },
-      55: { id: 55, title: 'Number 55' },
-      33: { id: 33, title: 'Number 33' },
+      'x172': { id: 22, title: 'Number 22' },
+      'm192': { id: 88, title: 'Number 88' },
+      4654: { id: 55, title: 'Number 55' },
+      'j72y': { id: 33, title: 'Number 33' },
     });
     const shouldBeOrdered = ImmtuableUtils.createOrderedMap(results, entities);
     const asList = shouldBeOrdered.toList();
-    expect(asList.get(0).get('id')).toBe(22);
+    expect(asList.get(0).get('id')).toBe(88);
     expect(asList.get(1).get('id')).toBe(33);
     expect(asList.get(2).get('id')).toBe(55);
-    expect(asList.get(3).get('id')).toBe(88);
+    expect(asList.get(3).get('id')).toBe(22);
   });
 });

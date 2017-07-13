@@ -68,8 +68,8 @@ function mergeSuccess(state, payload) {
   return state
     .set('fetching', false)
     .set('error', false)
-    .update('entities', entities => entities.mergeDeep(payload.data.entities))
-    .update('result', result => payload && payload.data && payload.data.result || false );
+    .set('entities', Immutable.fromJS(payload.data.entities))
+    .set('result', payload && payload.data && payload.data.result || false );
 }
 
 /**
@@ -102,7 +102,7 @@ function mergeFailure(state, payload) {
 /**
  * Creates an ordered map from a list and a map
  * @param {List}
- * @param {Map}
+ * @param {Collection}
  * @return OrderedMap
  */
 function createOrderedMap(keys, items) {

@@ -40,12 +40,9 @@ describe('mergeSuccess function', () => {
     entities: {
       countries: {
         22: { id: 22, title: 'Ethiopia', population: 99390000, size: '1.104m km2', },
-        44: { id: 44, title: 'Botswana' },
-        55: { id: 55, title: 'Argentina' },
       },
       continents: {
         12: { id: 12, title: 'Africa', countries: 54,  },
-        7: { id: 7, title: 'South America' },
       }
     },
     result: 22,

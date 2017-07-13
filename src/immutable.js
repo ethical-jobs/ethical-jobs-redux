@@ -68,8 +68,8 @@ function mergeSuccess(state, payload) {
   return state
     .set('fetching', false)
     .set('error', false)
-    .set('entities', Immutable.fromJS(payload.data.entities))
-    .set('result', payload && payload.data && payload.data.result || false );
+    .update('entities', entities => Immutable.fromJS(payload.data.entities))
+    .update('result', result => payload && payload.data && payload.data.result || false );
 }
 
 /**

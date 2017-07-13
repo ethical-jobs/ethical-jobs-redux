@@ -1,4 +1,4 @@
-# 0.2.31
+# 0.2.32
 
 - mergeSuccess now replaces entites state, not merge (bug)
 

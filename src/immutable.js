@@ -73,6 +73,19 @@ function mergeSuccess(state, payload) {
 }
 
 /**
+ * Merges a modules state on success action including a delete action
+ * @return Object
+ */
+function mergeDeleteSuccess(state, payload, deleted) {
+    return state
+        .set('fetching', false)
+        .set('error', false)
+        .deleteIn(['entities', deleted])
+        .update('entities', entities => entities.mergeDeep(payload.data.entities))
+        .update('result', result => payload && payload.data && payload.data.result || false );
+}
+
+/**
  * Merges a modules state on collection success action
  * @return Object
  */
@@ -117,6 +130,7 @@ export default {
   mergeSearchRequest,
   mergeRequest,
   mergeSuccess,
+  mergeDeleteSuccess,
   mergeCollectionSuccess,
   mergeFailure,
   createOrderedMap,

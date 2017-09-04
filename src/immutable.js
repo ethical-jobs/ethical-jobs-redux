@@ -74,16 +74,20 @@ function mergeSuccess(state, payload) {
 
 /**
  * Merges a modules state on collection success action
+ *
+ * Maintains the order of the results.
+ *
  * @return Object
  */
 function mergeCollectionSuccess(state, payload) {
+
   return state
     .set('fetching', false)
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
     .update('results', results => {
-      const payloadResult = Immutable.Set(payload && payload.data && payload.data.result, Immutable.Set());
-      const resultsSet = Immutable.Set.isSet(results) ? results : results.toSet();
+      const payloadResult = Immutable.OrderedSet(payload && payload.data && payload.data.result || OrderedSet());
+      const resultsSet = Immutable.OrderedSet.isOrderedSet(results) ? results : results.toOrderedSet();
       return resultsSet.union(payloadResult);
     });
 }

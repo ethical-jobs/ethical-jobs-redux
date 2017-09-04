@@ -1,3 +1,7 @@
+# 0.2.33
+
+- mergeCollectionSuccess now maintains order when merging Collections by using an Immutable.js OrderedSet instead of Set. 
+
 # 0.2.32
 
 - mergeSuccess now replaces entites state, not merge (bug)

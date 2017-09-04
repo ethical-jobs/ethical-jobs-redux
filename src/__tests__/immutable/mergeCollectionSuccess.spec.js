@@ -1,5 +1,5 @@
-import { fromJS, is, OrderedMap, List, Set, Map } from 'immutable';
-import ImmtuableUtils from '../../immutable';
+import { fromJS, is, isOrdered, OrderedMap, List, Set, OrderedSet, Map } from 'immutable';
+import ImmutableUtils from '../../immutable';
 
 describe('mergeCollectionSuccess function', () => {
 
@@ -13,16 +13,17 @@ describe('mergeCollectionSuccess function', () => {
         55: { id: 55, title: 'Argentina' },
         66: { id: 66, title: 'Sudan' },
         77: { id: 77, title: 'Chile' },
+        11: {id: 11, title: 'Australia'}
       },
       continents: {
         12: { id: 12, title: 'Africa' },
         7: { id: 7, title: 'South America' },
       }
     },
-    results: Set([22,44,55,66,77]),
+    results: [22,11,55,44,66,77],
   });
 
-  const actual = ImmtuableUtils.mergeCollectionSuccess(state, {
+  const actual = ImmutableUtils.mergeCollectionSuccess(state, {
     data: {
       entities: {
         countries: {
@@ -35,7 +36,7 @@ describe('mergeCollectionSuccess function', () => {
           12: { id: 12, title: 'Europe' },
         }
       },
-      result: Set([122,66,88]),
+      result: [88,122,66],
     },
   });
 
@@ -44,9 +45,14 @@ describe('mergeCollectionSuccess function', () => {
     expect(actual.get('error')).toBe(false);
   });
 
+  it('it maintains the result order', () => {
+    expect(isOrdered(actual.get('results'))).toBe(true);
+  });
+
   it('returns correct entities state', () => {
     const expected = fromJS({
       countries: {
+        11: {id: 11, title: 'Australia'},
         22: { id: 22, title: 'Ethiopia' },
         44: { id: 44, title: 'Botswana' },
         55: { id: 55, title: 'Argentina' },
@@ -65,7 +71,8 @@ describe('mergeCollectionSuccess function', () => {
   });
 
   it('returns correct results state', () => {
-    const expected = Set([22,44,55,66,77,122,88]);
+    const expected = OrderedSet([22,11,55,44,66,77,88,122]);
+
     expect(is(actual.get('results'), expected)).toBe(true);
   });
 });

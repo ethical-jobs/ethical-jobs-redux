@@ -71,7 +71,7 @@ describe('mergeCollectionSuccess function', () => {
   });
 
   it('returns correct results state', () => {
-    const expected = OrderedSet([22,11,55,44,66,77,88,122]);
+    const expected = OrderedSet([88,122,66]);
 
     expect(is(actual.get('results'), expected)).toBe(true);
   });

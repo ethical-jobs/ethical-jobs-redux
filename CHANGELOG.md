@@ -1,3 +1,7 @@
+# 0.2.34
+
+- mergeCollectionSuccess now treats payload results order as the definitive order instead of merging into state 
+
 # 0.2.33
 
 - mergeCollectionSuccess now maintains order when merging Collections by using an Immutable.js OrderedSet instead of Set. 

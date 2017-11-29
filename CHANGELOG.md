@@ -1,3 +1,7 @@
+# 0.2.35
+
+- Reverted the change in 0.2.34
+
 # 0.2.34
 
 - mergeCollectionSuccess now treats payload results order as the definitive order instead of merging into state 

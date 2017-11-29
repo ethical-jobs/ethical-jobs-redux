@@ -86,7 +86,9 @@ function mergeCollectionSuccess(state, payload) {
     .set('error', false)
     .update('entities', entities => entities.mergeDeep(payload.data.entities))
     .update('results', results => {
-      return Immutable.OrderedSet(payload && payload.data && payload.data.result || OrderedSet());
+      const payloadResult = Immutable.OrderedSet(payload && payload.data && payload.data.result || OrderedSet());
+      const resultsSet = Immutable.OrderedSet.isOrderedSet(results) ? results : results.toOrderedSet();
+      return resultsSet.union(payloadResult);
     });
 }
 

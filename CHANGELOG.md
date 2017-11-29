@@ -1,3 +1,7 @@
+# 0.2.36
+
+- Updated the package version
+
 # 0.2.35
 
 - Reverted the change in 0.2.34

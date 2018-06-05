@@ -1,3 +1,10 @@
+# v1.0.0
+
+- Bumping sem ver.
+- All immutable redux module merge functions should merge state, not replace it.
+- Removing mergeSearchRequest. State should not be cleared. Can be done manually.
+- Upgrading package versions.
+
 # 0.2.36
 
 - Updated the package version

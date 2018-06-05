@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import get from 'lodash/get';
 
 /**
  * Clears a modules entities
@@ -39,20 +40,8 @@ function updateSyncFilters(state, filters) {
 }
 
 /**
- * Sets a modules state on a search request
- * @return Object
- */
-function mergeSearchRequest(state) {
-  return state
-    .update('entities', entities => entities.clear())
-    .update('results', result => Immutable.Set())
-    .set('fetching', true)
-    .set('error', false);
-}
-
-/**
  * Merges a modules state on request actions
- * @return Object
+ * @return {Map}
  */
 function mergeRequest(state) {
   return state
@@ -62,33 +51,36 @@ function mergeRequest(state) {
 
 /**
  * Merges a modules state on success action
- * @return Object
+ * @return {Map}
  */
 function mergeSuccess(state, payload) {
   return state
     .set('fetching', false)
     .set('error', false)
-    .update('entities', entities => Immutable.fromJS(payload.data.entities))
-    .update('result', result => payload && payload.data && payload.data.result || false );
+    .update('entities', entities => {
+      const selected = get(payload, 'data.entities', {});
+      return entities.mergeDeep(Immutable.fromJS(selected));
+    })
+    .update('result', result => get(payload, 'data.result', false));
 }
 
 /**
  * Merges a modules state on collection success action
- *
- * Maintains the order of the results.
- *
- * @return Object
+ * @return {Map}
  */
 function mergeCollectionSuccess(state, payload) {
-
   return state
     .set('fetching', false)
     .set('error', false)
-    .update('entities', entities => entities.mergeDeep(payload.data.entities))
+    .update('entities', entities => {
+      const selected = get(payload, 'data.entities', {});
+      return entities.mergeDeep(Immutable.fromJS(selected));
+    })
     .update('results', results => {
-      const payloadResult = Immutable.OrderedSet(payload && payload.data && payload.data.result || OrderedSet());
+      const selected = get(payload, 'data.result', []);
+      const payloadResults = Immutable.OrderedSet(selected);
       const resultsSet = Immutable.OrderedSet.isOrderedSet(results) ? results : results.toOrderedSet();
-      return resultsSet.union(payloadResult);
+      return resultsSet.union(payloadResults);
     });
 }
 
@@ -118,7 +110,6 @@ export default {
   updateFilters,
   clearFilters,
   updateSyncFilters,
-  mergeSearchRequest,
   mergeRequest,
   mergeSuccess,
   mergeCollectionSuccess,

@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-redux",
-  "version": "0.2.36",
+  "version": "1.0.0",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au redux utility package",
   "license": "MIT",
@@ -20,20 +20,21 @@
     "globby": "^6.1.0",
     "gulp": "^3.9.1",
     "gulp-watch": "^4.3.11",
-    "jest": "^19.0.2",
+    "jest": "^23.1.0",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "sinon": "^2.1.0",
-    "unfetch": "^2.1.2",
-    "xo": "^0.18.1"
+    "unfetch": "^2.1.2"
   },
   "dependencies": {
-    "immutable": "4.0.0-rc.2",
+    "immutable": "4.0.0-rc.9",
+    "lodash": "^4.17.10",
+    "pretty-format": "^23.0.1",
     "redux-promise-middleware": "^4.2.0",
-    "reselect": "^3.0.0"
+    "reselect": "^3.0.1"
   },
   "repository": {
     "type": "git",
@@ -50,9 +51,6 @@
     "humanitarian",
     "redux"
   ],
-  "xo": {
-    "parser": "babel-eslint"
-  },
   "jest": {
     "testPathIgnorePatterns": [
       "/__tests__/_fixtures.js"

@@ -1,3 +1,7 @@
+# v1.1.0
+
+- Removing Error class merging from mergeFailure 
+
 # v1.0.0
 
 - Bumping sem ver.

@@ -89,9 +89,8 @@ function mergeCollectionSuccess(state, payload) {
  * @return Object
  */
 function mergeFailure(state, payload) {
-  const value = (payload instanceof Error) ? payload.error : payload;
   return state
-    .set('error', Immutable.fromJS(value))
+    .set('error', Immutable.fromJS(payload))
     .set('fetching', false);
 }
 

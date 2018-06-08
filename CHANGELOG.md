@@ -1,4 +1,4 @@
-# v1.2.0
+# v1.2.1
 
 - Upgrading rollup build facilities
 - Only building ES and CommonJS modules.

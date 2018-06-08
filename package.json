@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-redux",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au redux utility package",
   "license": "MIT",

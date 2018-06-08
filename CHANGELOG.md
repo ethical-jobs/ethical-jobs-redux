@@ -1,6 +1,11 @@
+# v1.2.0
+
+- Upgrading rollup build facilities
+- Only building ES and CommonJS modules.
+
 # v1.1.0
 
-- Removing Error class merging from mergeFailure 
+- Removing Error merging from mergeFailure
 
 # v1.0.0
 
@@ -19,11 +24,11 @@
 
 # 0.2.34
 
-- mergeCollectionSuccess now treats payload results order as the definitive order instead of merging into state 
+- mergeCollectionSuccess now treats payload results order as the definitive order instead of merging into state
 
 # 0.2.33
 
-- mergeCollectionSuccess now maintains order when merging Collections by using an Immutable.js OrderedSet instead of Set. 
+- mergeCollectionSuccess now maintains order when merging Collections by using an Immutable.js OrderedSet instead of Set.
 
 # 0.2.32
 
@@ -44,5 +49,5 @@
 # 0.2.24
 
 - adding changelog (no backlog)
-- clearFilters immutble helper 
+- clearFilters immutble helper
 - clearFilters assertion test helper

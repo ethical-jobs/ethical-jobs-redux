@@ -5,8 +5,8 @@ pipeline:
     pull: true
     commands:
       - yarn install
-      - yarn run build
-      - yarn run test
+      - yarn build
+      - yarn test
 
   publish:
     image: plugins/npm

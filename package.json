@@ -1,17 +1,16 @@
 {
-  "name": "ethical-jobs-redux",
-  "version": "1.2.1",
+  "name": "@ethical-jobs/redux",
+  "version": "1.3.0",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au redux utility package",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest",
-    "test-watch": "jest --watch"
+    "test": "jest"
   },
-  "main": "dist/ethical-jobs-redux.cjs.js",
-  "module": "dist/ethical-jobs-redux.esm.js",
+  "main": "dist/redux.cjs.js",
+  "module": "dist/redux.esm.js",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-jest": "^23.0.1",
@@ -34,12 +33,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ethical-jobs/ethical-jobs-redux.git"
+    "url": "https://github.com/ethical-jobs/redux.git"
   },
   "bugs": {
-    "url": "https://github.com/ethical-jobs/ethical-jobs-redux/issues"
+    "url": "https://github.com/ethical-jobs/redux/issues"
   },
-  "homepage": "https://github.com/ethical-jobs/ethical-jobs-redux",
+  "homepage": "https://github.com/ethical-jobs/redux",
   "keywords": [
     "ethicaljobs",
     "employment",

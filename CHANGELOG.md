@@ -1,3 +1,9 @@
+# [staged]
+
+# v1.3.0
+
+- Migrating NPM package to organisation ethical-jobs
+
 # v1.2.1
 
 - Upgrading rollup build facilities

@@ -1,5 +1,9 @@
 # [staged]
 
+# v1.4.0
+
+- Preventing merge of nested entities Lists
+
 # v1.3.0
 
 - Migrating NPM package to organisation ethical-jobs

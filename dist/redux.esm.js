@@ -1234,6 +1234,22 @@ function get(object, path, defaultValue) {
 var get_1 = get;
 
 /**
+ * Merges [entities] properties
+ * @param {Immutable} entities
+ * @param {Immutable} payload
+ * @return {Map}
+ */
+function entitiesMerger(A, B) {
+  if (Immutable.List.isList(A) && Immutable.List.isList(B)) {
+    return B; // Replace the nested list
+  }
+  if (A && A.mergeWith) {
+    return A.mergeWith(entitiesMerger, B);
+  }
+  return B;
+}
+
+/**
  * Clears a modules entities
  * @return Object
  */
@@ -1286,7 +1302,7 @@ function mergeRequest(state) {
 function mergeSuccess(state, payload) {
   return state.set('fetching', false).set('error', false).update('entities', function (entities) {
     var selected = get_1(payload, 'data.entities', {});
-    return entities.mergeDeep(Immutable.fromJS(selected));
+    return entities.mergeWith(entitiesMerger, Immutable.fromJS(selected));
   }).update('result', function (result) {
     return get_1(payload, 'data.result', false);
   });

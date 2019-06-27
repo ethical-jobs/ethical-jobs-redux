@@ -81,6 +81,22 @@ function mergeSuccess(state, payload) {
 }
 
 /**
+ * Removes archived entry on successful archive
+ * @return {Map}
+ */
+function archiveSuccess(state, payload) {
+  const selected = get(payload, 'data.entities', {});
+  const key = Object.keys(selected)[0];
+  const id = Object.keys(selected[key])[0];
+ return state
+    .set('fetching', false)
+    .set('error', false)
+    .set('result', false)
+    .removeIn(['entities', key, id])
+    .update('results', results => results.filter(result => result !== parseInt(id)));
+}
+
+/**
  * Merges a modules state on collection success action
  * @return {Map}
  */
@@ -127,6 +143,7 @@ export default {
   updateSyncFilters,
   mergeRequest,
   mergeSuccess,
+  archiveSuccess,
   mergeCollectionSuccess,
   mergeFailure,
   createOrderedMap,

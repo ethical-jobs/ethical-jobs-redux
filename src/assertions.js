@@ -117,6 +117,12 @@ function successState(reducer, actionTypes = [], initialState, fixture) {
   return passes;
 }
 
+function archiveSuccessState(reducer, actionType, initialState, archivedEntry) {
+  const action = { type: actionType, payload: archivedEntry };
+  const expected = ImmutableUtils.archiveSuccess(initialState, archivedEntry);
+  return Immutable.is(reducer(initialState, action), expected);
+}
+
 /**
  * Asserts a modules "failure" state
  *
@@ -216,6 +222,7 @@ export default {
   searchRequestState,
   requestState,
   successState,
+  archiveSuccessState,
   failureState,
   fetchingSelector,
   filtersSelector,

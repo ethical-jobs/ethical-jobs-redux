@@ -1501,6 +1501,12 @@ function successState(reducer) {
   return passes;
 }
 
+function archiveSuccessState(reducer, actionType, initialState, archivedEntry) {
+  var action = { type: actionType, payload: archivedEntry };
+  var expected = ImmutableTools.archiveSuccess(initialState, archivedEntry);
+  return Immutable.is(reducer(initialState, action), expected);
+}
+
 /**
  * Asserts a modules "failure" state
  *
@@ -1594,6 +1600,7 @@ var assertions = {
   searchRequestState: searchRequestState,
   requestState: requestState,
   successState: successState,
+  archiveSuccessState: archiveSuccessState,
   failureState: failureState,
   fetchingSelector: fetchingSelector,
   filtersSelector: filtersSelector,

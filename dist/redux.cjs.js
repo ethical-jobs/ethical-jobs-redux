@@ -1315,6 +1315,21 @@ function mergeSuccess(state, payload) {
 }
 
 /**
+ * Removes archived entry on successful archive
+ * @return {Map}
+ */
+function archiveSuccess(state, payload) {
+  var selected = get_1(payload, 'data.entities', {});
+  var key = Object.keys(selected)[0];
+  var id = Object.keys(selected[key])[0];
+  return state.set('fetching', false).set('error', false).set('result', false).removeIn(['entities', key, id]).update('results', function (results) {
+    return results.filter(function (result) {
+      return result !== parseInt(id);
+    });
+  });
+}
+
+/**
  * Merges a modules state on collection success action
  * @return {Map}
  */
@@ -1357,6 +1372,7 @@ var ImmutableTools = {
   updateSyncFilters: updateSyncFilters,
   mergeRequest: mergeRequest,
   mergeSuccess: mergeSuccess,
+  archiveSuccess: archiveSuccess,
   mergeCollectionSuccess: mergeCollectionSuccess,
   mergeFailure: mergeFailure,
   createOrderedMap: createOrderedMap
@@ -1485,6 +1501,12 @@ function successState(reducer) {
   return passes;
 }
 
+function archiveSuccessState(reducer, actionType, initialState, archivedEntry) {
+  var action = { type: actionType, payload: archivedEntry };
+  var expected = ImmutableTools.archiveSuccess(initialState, archivedEntry);
+  return Immutable.is(reducer(initialState, action), expected);
+}
+
 /**
  * Asserts a modules "failure" state
  *
@@ -1578,6 +1600,7 @@ var assertions = {
   searchRequestState: searchRequestState,
   requestState: requestState,
   successState: successState,
+  archiveSuccessState: archiveSuccessState,
   failureState: failureState,
   fetchingSelector: fetchingSelector,
   filtersSelector: filtersSelector,

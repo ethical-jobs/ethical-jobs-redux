@@ -1,5 +1,9 @@
 # [staged]
 
+# v1.5.0
+
+- Add ability to resolve archive record state
+
 # [ v1.4.0, v1.4.1 ]
 
 - Preventing merge of nested entities Lists
